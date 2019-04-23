@@ -16,10 +16,8 @@ export class Hello extends React.Component<HelloProps, {}> {
         <h1>
           Hello from Flask + {this.props.compiler} and {this.props.framework}!
         </h1>
-        <h2>now with hot reloading!!</h2>
         <p>
-          ... and don't forget about emmet and Leader-p for <b>Prettier</b>{' '}
-          formatting!!!
+          forget about emmet and Leader-p for <b>Prettier</b>{' '}
         </p>
         <Menu selection="B" />
       </div>

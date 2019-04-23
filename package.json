@@ -5,7 +5,7 @@
   "author": "Tom Fleming",
   "license": "ISC",
   "dependencies": {
-    "@types/react": "^16.8.13",
+    "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
