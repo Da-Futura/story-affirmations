@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>story_generator.py</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="__init__.html">
+                  src/api/__init__.py
+                </a>
+              
+                
+                <a class="source" href="hello.html">
+                  src/api/hello.py
+                </a>
+              
+                
+                <a class="source" href="story_generator.html">
+                  src/api/story_generator.py
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>story_generator.py</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>== Initializing Base Classes ==</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>=== Character ===</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Character</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-string">"""
+    A named entity within the story.
+    Right now we're only considering name and pronouns,
+    but in the future we'll store other biographical data.
+
+    Args:
+
+    1. **name** (string): 
+        The proper noun name of the character 
+
+    2. **personal_pronoun** (string): 
+        The preferred personal pronoun (she/he/ze/etc)
+
+    3. **possesive_pronoun** (string): 
+        The preferred posessive pronoun (her/his/zir/etc)
+    """</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, name, personal_pronoun, posessive_pronoun)</span>:</span>
+        super(Character, self).__init__()
+        self.name = name
+        self.personal_pronoun = personal_pronoun
+        self.posessive_pronoun = posessive_pronoun</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>A demo protoganist modelled after yours truly:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>ADA = Character(<span class="hljs-string">'Ada'</span>, <span class="hljs-string">'she'</span>, <span class="hljs-string">'her'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>=== Story ===</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Story</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-string">"""
+    This is the class 
+    """</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, text)</span>:</span>
+        super(Story, self).__init__()
+        self.text = text
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create_story</span><span class="hljs-params">(self, player)</span>:</span>
+        my_player = player
+        story: str= self.text
+        story = story.replace(<span class="hljs-string">'Karo'</span>, my_player.name)
+
+        <span class="hljs-keyword">return</span> story
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create_demo_story</span><span class="hljs-params">()</span>:</span>
+    main_character = ADA
+    story = Story(<span class="hljs-string">"Karo drew her sword and declared war."</span>)
+    <span class="hljs-keyword">return</span> story.create_story(main_character)</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

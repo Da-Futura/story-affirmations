@@ -29,6 +29,11 @@
                   src/api/hello.py
                 </a>
               
+                
+                <a class="source" href="story_generator.html">
+                  src/api/story_generator.py
+                </a>
+              
             </div>
           </div>
         </li>
@@ -54,13 +59,29 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Blueprint, render_template
+<span class="hljs-keyword">from</span> api.story_generator <span class="hljs-keyword">import</span> create_demo_story
 
-bp = Blueprint(<span class="hljs-string">'root'</span>, __name__, <span class="hljs-string">'/'</span>)
+bp = Blueprint(<span class="hljs-string">'root'</span>, __name__, <span class="hljs-string">'/'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>=== Initial Flask Routes ===</p>
 
-
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
 <span class="hljs-meta">@bp.route('/')</span>
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">'Hello there flask user!'</span>
+    <span class="hljs-string">"""The root route will just return a string"""</span>    
+    story = create_demo_story()
+    <span class="hljs-keyword">return</span> story
 
 <span class="hljs-meta">@bp.route('/spa')</span>
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">load_spa</span><span class="hljs-params">()</span>:</span>

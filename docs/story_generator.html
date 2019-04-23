@@ -43,7 +43,7 @@
       </div>
       <p>A named entity within the story.
 Right now we&rsquo;re only considering name and pronouns,
-but in the future we&rsquo;ll store other biographical data</p>
+but in the future we&rsquo;ll store other biographical data.</p>
 <p>Args:</p>
 <ol>
 <li>
@@ -64,7 +64,7 @@ but in the future we&rsquo;ll store other biographical data</p>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">personal_pronoun</span><span class="p">,</span> <span class="n">posessive_pronoun</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Character</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">personal_pronoun</span> <span class="o">=</span> <span class="n">personal_pronoun</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">personal_pronoun</span> <span class="o">=</span> <span class="n">personal_pronoun</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">posessive_pronoun</span> <span class="o">=</span> <span class="n">posessive_pronoun</span></pre></div>
     </div>
   </div>
@@ -74,7 +74,7 @@ but in the future we&rsquo;ll store other biographical data</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-3'>#</a>
       </div>
-      <p>A demo protoganist modelled after yours truly</p>
+      <p>A demo protoganist modelled after yours truly:</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="n">ADA</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s1">&#39;Ada&#39;</span><span class="p">,</span> <span class="s1">&#39;she&#39;</span><span class="p">,</span> <span class="s1">&#39;her&#39;</span><span class="p">)</span></pre></div>
@@ -98,7 +98,7 @@ but in the future we&rsquo;ll store other biographical data</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-5'>#</a>
       </div>
-      
+      <p>All the parts needed to tell a tale</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
@@ -117,7 +117,10 @@ but in the future we&rsquo;ll store other biographical data</p>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">create_story</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
         <span class="n">my_player</span> <span class="o">=</span> <span class="n">player</span>
-        <span class="k">return</span> <span class="n">my_player</span><span class="o">.</span><span class="n">posessive_pronoun</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span></pre></div>
+        <span class="n">story</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="n">story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Karo&#39;</span><span class="p">,</span> <span class="n">my_player</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">story</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -131,7 +134,7 @@ but in the future we&rsquo;ll store other biographical data</p>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_demo_story</span><span class="p">():</span>
     <span class="n">main_character</span> <span class="o">=</span> <span class="n">ADA</span>
-    <span class="n">story</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="s2">&quot; plate ran away with the moon&quot;</span><span class="p">)</span>
+    <span class="n">story</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="s2">&quot;Karo drew her sword and declared war.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">story</span><span class="o">.</span><span class="n">create_story</span><span class="p">(</span><span class="n">main_character</span><span class="p">)</span>
 
 </pre></div>

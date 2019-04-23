@@ -1,6 +1,6 @@
 # == Initializing Base Classes ==
 
-# === Character ==
+# === Character ===
 class Character(object):
     """
     A named entity within the story.
@@ -21,26 +21,31 @@ class Character(object):
     def __init__(self, name, personal_pronoun, posessive_pronoun):
         super(Character, self).__init__()
         self.name = name
-        self.personal_pronoun = personal_pronoun        
+        self.personal_pronoun = personal_pronoun
         self.posessive_pronoun = posessive_pronoun
 
 # A demo protoganist modelled after yours truly:
 ADA = Character('Ada', 'she', 'her') 
         
 
-# === Story ==
+# === Story ===
 class Story(object):
-    """"""
+    """
+    All the parts needed to tell a tale
+    """
     def __init__(self, text):
         super(Story, self).__init__()
         self.text = text
     
     def create_story(self, player):
         my_player = player
-        return my_player.posessive_pronoun + self.text
+        story: str= self.text
+        story = story.replace('Karo', my_player.name)
+
+        return story
 
 
 def create_demo_story():
     main_character = ADA
-    story = Story(" plate ran away with the moon")
+    story = Story("Karo drew her sword and declared war.")
     return story.create_story(main_character)
