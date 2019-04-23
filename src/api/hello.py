@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template
+from api.story_generator import create_story
 
 bp = Blueprint('root', __name__, '/')
 
+# === Initial Flask Routes ===
 
 @bp.route('/')
 def hello():
-    return 'Hello there flask user!'
+    """The root route will just return a string"""    
+    story = create_story('Ada')
+    return story
 
 @bp.route('/spa')
 def load_spa():
