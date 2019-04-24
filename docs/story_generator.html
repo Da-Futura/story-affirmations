@@ -17,7 +17,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-0'>#</a>
       </div>
-      <h2><span id="initializing-base-classes" href="initializing-base-classes"> Initializing Base Classes </span></h2>
+      <h2><span id="intention" href="intention"> Intention </span></h2>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span></span></pre></div>
@@ -29,10 +29,13 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-1'>#</a>
       </div>
-      <h3><span id="character" href="character"> Character </span></h3>
+      <p>We&rsquo;re going to parse a paragraph of annotated text 
+(usually a book excerpt), and then, given information 
+on the player, generate a new version of the text with 
+the player&rsquo;s infromation spliced in.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Character</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -40,6 +43,18 @@
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <h2><span id="character" href="character"> Character </span></h2>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Character</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
       </div>
       <p>A named entity within the story.
 Right now we&rsquo;re only considering name and pronouns,
@@ -69,10 +84,10 @@ but in the future we&rsquo;ll store other biographical data.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-3'>
+  <div class='section' id='section-4'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-3'>#</a>
+        <a class='octothorpe' href='#section-4'>#</a>
       </div>
       <p>A demo protoganist modelled after yours truly:</p>
     </div>
@@ -81,29 +96,15 @@ but in the future we&rsquo;ll store other biographical data.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-4'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-4'>#</a>
-      </div>
-      <h3><span id="story" href="story"> Story </span></h3>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Story</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-5'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-5'>#</a>
       </div>
-      <p>All the parts needed to tell a tale</p>
+      <h2><span id="story" href="story"> Story </span></h2>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Story</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Story</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -112,15 +113,20 @@ but in the future we&rsquo;ll store other biographical data.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-6'>#</a>
       </div>
-      
+      <p>A body of annotated text which takes the form of an array of strings
+representing the excerpt. Variables, like <em>name</em> and <em>possessive pronoun</em> 
+are recorded in the shorthand form.</p>
+<ul>
+<li><strong>name</strong> = &gt; !n</li>
+<li><strong>personal pronoun</strong> =&gt; !ze</li>
+<li><strong>possessive pronoun</strong> =&gt; !zir</li>
+</ul>
+<p>[&lsquo;<strong>!n</strong>&lsquo; , &lsquo;dived&rsquo;, &lsquo;into&rsquo;, &lsquo;the&rsquo;, &lsquo;water&rsquo;, &lsquo;with&rsquo; , &lsquo;<strong>!zir</strong>&rsquo;, &lsquo;dress&rsquo;, &lsquo;still&rsquo;, &lsquo;on!&rsquo; ]</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">create_story</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
-        <span class="n">my_player</span> <span class="o">=</span> <span class="n">player</span>
-        <span class="n">story</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
-        <span class="n">story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Karo&#39;</span><span class="p">,</span> <span class="n">my_player</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">story</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Story</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -129,12 +135,70 @@ but in the future we&rsquo;ll store other biographical data.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-7'>#</a>
       </div>
+      <p>Given a player (<strong>Character</strong>), we can take zir information and substitute it into the paragraph. </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">create_story</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_demo_story</span><span class="p">():</span>
+      <div class="highlight"><pre>        
+        <span class="n">curr_player</span> <span class="o">=</span> <span class="n">player</span>
+        
+        <span class="n">story</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;!n&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">])</span>
+        <span class="n">story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;!ze&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">personal_pronoun</span><span class="p">)</span>
+        <span class="n">story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;!zir&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">posessive_pronoun</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">story</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <h2><span id="create-demo-story" href="create-demo-story"> Create Demo Story </span></h2>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>We use default arguments to generate a story for 
+testing. </p>
+<p>Return: String of text representing the generated story</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_demo_story</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    
     <span class="n">main_character</span> <span class="o">=</span> <span class="n">ADA</span>
-    <span class="n">story</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="s2">&quot;Karo drew her sword and declared war.&quot;</span><span class="p">)</span>
+    <span class="n">main_text</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;!n&quot;</span><span class="p">,</span> <span class="s2">&quot; drew&quot;</span><span class="p">,</span> <span class="s2">&quot; !zir&quot;</span><span class="p">,</span> <span class="s2">&quot; sword and declared war&quot;</span><span class="p">]</span>
+    <span class="n">story</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="n">main_text</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">story</span><span class="o">.</span><span class="n">create_story</span><span class="p">(</span><span class="n">main_character</span><span class="p">)</span>
 
 </pre></div>

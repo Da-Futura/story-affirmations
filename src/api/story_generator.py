@@ -1,6 +1,15 @@
-# == Initializing Base Classes ==
+# == Intention ==
 
-# === Character ===
+"""
+We're going to parse a paragraph of annotated text 
+(usually a book excerpt), and then, given information 
+on the player, generate a new version of the text with 
+the player's infromation spliced in.
+"""
+
+
+
+# == Character ==
 class Character(object):
     """
     A named entity within the story.
@@ -28,24 +37,48 @@ class Character(object):
 ADA = Character('Ada', 'she', 'her') 
         
 
-# === Story ===
+# == Story ==
 class Story(object):
     """
-    All the parts needed to tell a tale
+    A body of annotated text which takes the form of an array of strings
+    representing the excerpt. Variables, like *name* and *possessive pronoun* 
+    are recorded in the shorthand form.
+
+    * **name** = > !n
+    * **personal pronoun** => !ze
+    * **possessive pronoun** => !zir
+
+    ['**!n**' , 'dived', 'into', 'the', 'water', 'with' , '**!zir**', 'dress', 'still', 'on!' ]
+
     """
-    def __init__(self, text):
+    def __init__(self, raw):
         super(Story, self).__init__()
-        self.text = text
+        self.raw = raw
     
     def create_story(self, player):
-        my_player = player
-        story: str= self.text
-        story = story.replace('Karo', my_player.name)
+        """
+        Given a player (**Character**), we can take zir information and substitute it into the paragraph. 
+        """
+        
+        curr_player = player
+        
+        story = "".join([s.replace('!n', player.name) for s in self.raw])
+        story = story.replace('!ze', player.personal_pronoun)
+        story = story.replace('!zir', player.posessive_pronoun)
 
         return story
 
+# == Create Demo Story ==
 
 def create_demo_story():
+    """
+    We use default arguments to generate a story for 
+    testing. 
+
+    Return: String of text representing the generated story
+    """
+    
     main_character = ADA
-    story = Story("Karo drew her sword and declared war.")
+    main_text = ["!n", " drew", " !zir", " sword and declared war"]
+    story = Story(main_text)
     return story.create_story(main_character)
