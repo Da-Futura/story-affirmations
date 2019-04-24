@@ -17,13 +17,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-0'>#</a>
       </div>
-      
+      <h2><span id="intention" href="intention"> Intention </span></h2>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">render_template</span>
-<span class="kn">from</span> <span class="nn">api.story_generator</span> <span class="kn">import</span> <span class="n">create_demo_story</span>
-
-<span class="n">bp</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre><span></span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -32,10 +29,15 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-1'>#</a>
       </div>
-      <h3><span id="initial-flask-routes" href="initial-flask-routes"> Initial Flask Routes </span></h3>
+      <p>The base routes for the application will be defined here.
+This includes the route which serves the single page react app,
+as well as all the appropriate api routing.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">render_template</span>
+<span class="kn">from</span> <span class="nn">api.story_generator</span> <span class="kn">import</span> <span class="n">create_demo_story</span>
+
+<span class="n">bp</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -44,11 +46,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-2'>#</a>
       </div>
-      <p>The root route will just return a string</p>
+      <p>Flask uses the <a href="http://flask.pocoo.org/docs/1.0/blueprints/">Blueprint object</a> in order to structure the routing. <em>"A Blueprint object works similarly to a Flask application object, but it is not actually an application. Rather it is a blueprint of how to construct or extend an application."</em></p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="nd">@bp.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">hello</span><span class="p">():</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -57,11 +58,11 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-3'>#</a>
       </div>
-      
+      <p>The Single Page React app is served at the root url, ie. http://tinystory.me/</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">story</span> <span class="o">=</span> <span class="n">create_demo_story</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">story</span></pre></div>
+      <div class="highlight"><pre><span class="nd">@bp.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">load_react_app</span><span class="p">():</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -73,9 +74,74 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="nd">@bp.route</span><span class="p">(</span><span class="s1">&#39;/spa&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">load_spa</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <h2><span id="api-route-pattern" href="api-route-pattern"> API Route Pattern </span></h2>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>We want a consistent pattern for our frontend to make api calls
+to our backend. Because we&rsquo;re unsure what this application will
+ultimately look like, the routes will be very generic following 
+the pattern: </p>
+<p><strong><em>/api / class / action</em></strong></p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>The root route will return a string with a demo story</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@bp.route</span><span class="p">(</span><span class="s1">&#39;/api/story/demo&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">demo</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">story</span> <span class="o">=</span> <span class="n">create_demo_story</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">story</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@bp.route</span><span class="p">(</span><span class="s1">&#39;/api/character/create&#39;</span><span class="p">)</span>    
+<span class="k">def</span> <span class="nf">create_character</span><span class="p">():</span>
 
 </pre></div>
     </div>
@@ -83,3 +149,4 @@
   <div class='clearall'></div>
 </div>
 </body>
+<link href="https://fonts.googleapis.com/css?family=Raleway:100,400|PT+Mono|Bitter|Codystar|Ubuntu+Mono:400,700|VT323" rel="stylesheet"> <link rel="stylesheet" href="story_docs.css">

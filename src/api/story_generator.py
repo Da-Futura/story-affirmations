@@ -26,6 +26,9 @@ class Character(object):
 
     3. **possesive_pronoun** (string): 
         The preferred posessive pronoun (her/his/zir/etc)
+
+    4. **reflexive_pronoun** (string):
+        The preferred reflexive pronoun (herself/homself/zirself/etc)
     """
     def __init__(self, name, personal_pronoun, posessive_pronoun, reflexive_pronoun):
         super(Character, self).__init__()
@@ -33,6 +36,7 @@ class Character(object):
         self.personal_pronoun = personal_pronoun
         self.posessive_pronoun = posessive_pronoun
         self.reflexive_pronoun = reflexive_pronoun
+    
 
 # A demo protoganist modelled after yours truly:
 ADA = Character('Ada', 'she', 'her', 'herself')
@@ -85,3 +89,6 @@ def create_demo_story():
     main_text = "@n drew @zir sword and declared war"
     story = Story(main_text)
     return story.generate(main_character)
+
+def create_character(name, posessive_pronoun, personal_pronoun, reflexive_pronoun):
+    character = Character(name, personal_pronoun, posessive_pronoun, reflexive_pronoun)

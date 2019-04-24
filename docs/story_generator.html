@@ -73,6 +73,10 @@ but in the future we&rsquo;ll store other biographical data.</p>
 <p><strong>possesive_pronoun</strong> (string): 
     The preferred posessive pronoun (her/his/zir/etc)</p>
 </li>
+<li>
+<p><strong>reflexive_pronoun</strong> (string):
+    The preferred reflexive pronoun (herself/homself/zirself/etc)</p>
+</li>
 </ol>
     </div>
     <div class='code'>
@@ -202,7 +206,20 @@ testing. </p>
     <span class="n">main_character</span> <span class="o">=</span> <span class="n">ADA</span>
     <span class="n">main_text</span> <span class="o">=</span> <span class="s2">&quot;@n drew @zir sword and declared war&quot;</span>
     <span class="n">story</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="n">main_text</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">story</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">main_character</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">story</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">main_character</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_character</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">posessive_pronoun</span><span class="p">,</span> <span class="n">personal_pronoun</span><span class="p">,</span> <span class="n">reflexive_pronoun</span><span class="p">):</span>
+    <span class="n">character</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">personal_pronoun</span><span class="p">,</span> <span class="n">posessive_pronoun</span><span class="p">,</span> <span class="n">reflexive_pronoun</span><span class="p">)</span>
 
 </pre></div>
     </div>
