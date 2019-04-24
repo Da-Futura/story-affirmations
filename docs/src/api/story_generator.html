@@ -125,7 +125,7 @@
             
             <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Story</span><span class="hljs-params">(object)</span>:</span>
     <span class="hljs-string">"""
-    This is the class 
+    All the parts needed to tell a tale
     """</span>
     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, text)</span>:</span>
         super(Story, self).__init__()
@@ -142,7 +142,29 @@
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create_demo_story</span><span class="hljs-params">()</span>:</span>
     main_character = ADA
     story = Story(<span class="hljs-string">"Karo drew her sword and declared war."</span>)
-    <span class="hljs-keyword">return</span> story.create_story(main_character)</pre></div></div>
+    <span class="hljs-keyword">return</span> story.create_story(main_character)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(items)</span>:</span>
+    <span class="hljs-string">""" Implementation of bubble sort """</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(items)):
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(len(items)<span class="hljs-number">-1</span>-i):
+            <span class="hljs-keyword">if</span> items[j] &gt; items[j+<span class="hljs-number">1</span>]:</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Swap!</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                items[j], items[j+<span class="hljs-number">1</span>] = items[j+<span class="hljs-number">1</span>], items[j]</pre></div></div>
             
         </li>
         
