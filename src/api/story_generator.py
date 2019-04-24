@@ -45,9 +45,8 @@ ADA = Character('Ada', 'she', 'her', 'herself')
 # == Story ==
 class Story(object):
     """
-    A body of annotated text which takes the form of a string
-    representing the excerpt. Variables, like *name* and *possessive pronoun* 
-    are recorded in the shorthand form:
+    A body of annotated text which takes the form of a string representing the excerpt.     
+    Variables, like *name* and *possessive pronoun* are recorded in the shorthand form:
 
     * **name** : !n
     * **personal pronoun** : !ze
