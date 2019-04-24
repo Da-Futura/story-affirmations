@@ -76,11 +76,12 @@ but in the future we&rsquo;ll store other biographical data.</p>
 </ol>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">personal_pronoun</span><span class="p">,</span> <span class="n">posessive_pronoun</span><span class="p">):</span>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">personal_pronoun</span><span class="p">,</span> <span class="n">posessive_pronoun</span><span class="p">,</span> <span class="n">reflexive_pronoun</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Character</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">personal_pronoun</span> <span class="o">=</span> <span class="n">personal_pronoun</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">posessive_pronoun</span> <span class="o">=</span> <span class="n">posessive_pronoun</span></pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">posessive_pronoun</span> <span class="o">=</span> <span class="n">posessive_pronoun</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reflexive_pronoun</span> <span class="o">=</span> <span class="n">reflexive_pronoun</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -92,7 +93,7 @@ but in the future we&rsquo;ll store other biographical data.</p>
       <p>A demo protoganist modelled after yours truly:</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="n">ADA</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s1">&#39;Ada&#39;</span><span class="p">,</span> <span class="s1">&#39;she&#39;</span><span class="p">,</span> <span class="s1">&#39;her&#39;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre><span class="n">ADA</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s1">&#39;Ada&#39;</span><span class="p">,</span> <span class="s1">&#39;she&#39;</span><span class="p">,</span> <span class="s1">&#39;her&#39;</span><span class="p">,</span> <span class="s1">&#39;herself&#39;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -113,13 +114,14 @@ but in the future we&rsquo;ll store other biographical data.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-6'>#</a>
       </div>
-      <p>A body of annotated text which takes the form of an array of strings
+      <p>A body of annotated text which takes the form of a string
 representing the excerpt. Variables, like <em>name</em> and <em>possessive pronoun</em> 
-are recorded in the shorthand form.</p>
+are recorded in the shorthand form:</p>
 <ul>
-<li><strong>name</strong> = &gt; !n</li>
-<li><strong>personal pronoun</strong> =&gt; !ze</li>
-<li><strong>possessive pronoun</strong> =&gt; !zir</li>
+<li><strong>name</strong> : !n</li>
+<li><strong>personal pronoun</strong> : !ze</li>
+<li><strong>possessive pronoun</strong> : !zir</li>
+<li><strong>reflexive pronoun</strong> : !zirself</li>
 </ul>
 <p>[&lsquo;<strong>!n</strong>&lsquo; , &lsquo;dived&rsquo;, &lsquo;into&rsquo;, &lsquo;the&rsquo;, &lsquo;water&rsquo;, &lsquo;with&rsquo; , &lsquo;<strong>!zir</strong>&rsquo;, &lsquo;dress&rsquo;, &lsquo;still&rsquo;, &lsquo;on!&rsquo; ]</p>
     </div>
@@ -138,7 +140,7 @@ are recorded in the shorthand form.</p>
       <p>Given a player (<strong>Character</strong>), we can take zir information and substitute it into the paragraph. </p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">create_story</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -153,9 +155,10 @@ are recorded in the shorthand form.</p>
       <div class="highlight"><pre>        
         <span class="n">curr_player</span> <span class="o">=</span> <span class="n">player</span>
         
-        <span class="n">story</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;!n&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">])</span>
-        <span class="n">story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;!ze&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">personal_pronoun</span><span class="p">)</span>
-        <span class="n">story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;!zir&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">posessive_pronoun</span><span class="p">)</span>
+        <span class="n">story</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;@n&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;@ze&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">personal_pronoun</span><span class="p">)</span>
+        <span class="n">story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;@zir&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">posessive_pronoun</span><span class="p">)</span>
+        <span class="n">story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;@zirself&#39;</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">reflexive_pronoun</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">story</span></pre></div>
     </div>
@@ -197,9 +200,9 @@ testing. </p>
     <div class='code'>
       <div class="highlight"><pre>    
     <span class="n">main_character</span> <span class="o">=</span> <span class="n">ADA</span>
-    <span class="n">main_text</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;!n&quot;</span><span class="p">,</span> <span class="s2">&quot; drew&quot;</span><span class="p">,</span> <span class="s2">&quot; !zir&quot;</span><span class="p">,</span> <span class="s2">&quot; sword and declared war&quot;</span><span class="p">]</span>
+    <span class="n">main_text</span> <span class="o">=</span> <span class="s2">&quot;@n drew @zir sword and declared war&quot;</span>
     <span class="n">story</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="n">main_text</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">story</span><span class="o">.</span><span class="n">create_story</span><span class="p">(</span><span class="n">main_character</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">story</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">main_character</span><span class="p">)</span>
 
 </pre></div>
     </div>

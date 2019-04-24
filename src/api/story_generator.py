@@ -27,26 +27,28 @@ class Character(object):
     3. **possesive_pronoun** (string): 
         The preferred posessive pronoun (her/his/zir/etc)
     """
-    def __init__(self, name, personal_pronoun, posessive_pronoun):
+    def __init__(self, name, personal_pronoun, posessive_pronoun, reflexive_pronoun):
         super(Character, self).__init__()
         self.name = name
         self.personal_pronoun = personal_pronoun
         self.posessive_pronoun = posessive_pronoun
+        self.reflexive_pronoun = reflexive_pronoun
 
 # A demo protoganist modelled after yours truly:
-ADA = Character('Ada', 'she', 'her') 
+ADA = Character('Ada', 'she', 'her', 'herself')
         
 
 # == Story ==
 class Story(object):
     """
-    A body of annotated text which takes the form of an array of strings
+    A body of annotated text which takes the form of a string
     representing the excerpt. Variables, like *name* and *possessive pronoun* 
-    are recorded in the shorthand form.
+    are recorded in the shorthand form:
 
-    * **name** = > !n
-    * **personal pronoun** => !ze
-    * **possessive pronoun** => !zir
+    * **name** : !n
+    * **personal pronoun** : !ze
+    * **possessive pronoun** : !zir
+    * **reflexive pronoun** : !zirself
 
     ['**!n**' , 'dived', 'into', 'the', 'water', 'with' , '**!zir**', 'dress', 'still', 'on!' ]
 
@@ -55,16 +57,17 @@ class Story(object):
         super(Story, self).__init__()
         self.raw = raw
     
-    def create_story(self, player):
+    def generate(self, player):
         """
         Given a player (**Character**), we can take zir information and substitute it into the paragraph. 
         """
         
         curr_player = player
         
-        story = "".join([s.replace('!n', player.name) for s in self.raw])
-        story = story.replace('!ze', player.personal_pronoun)
-        story = story.replace('!zir', player.posessive_pronoun)
+        story = self.raw.replace('@n', player.name)
+        story = story.replace('@ze', player.personal_pronoun)
+        story = story.replace('@zir', player.posessive_pronoun)
+        story = story.replace('@zirself', player.reflexive_pronoun)
 
         return story
 
@@ -79,6 +82,6 @@ def create_demo_story():
     """
     
     main_character = ADA
-    main_text = ["!n", " drew", " !zir", " sword and declared war"]
+    main_text = "@n drew @zir sword and declared war"
     story = Story(main_text)
-    return story.create_story(main_character)
+    return story.generate(main_character)
