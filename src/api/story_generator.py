@@ -54,7 +54,7 @@ class Story(object):
     * **possessive pronoun** : !zir
     * **reflexive pronoun** : !zirself
 
-    ['**!n**' , 'dived', 'into', 'the', 'water', 'with' , '**!zir**', 'dress', 'still', 'on!' ]
+    > \"**!n** dove into the water with **!zir** dress still on\"
 
     """
     def __init__(self, raw):
