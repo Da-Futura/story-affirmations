@@ -12,7 +12,7 @@ the player's infromation spliced in.
 # == Character ==
 class Character(object):
     """
-    A named entity within the story.
+    A named entity within the chapter.
     Right now we're only considering name and pronouns,
     but in the future we'll store other biographical data.
 
@@ -42,11 +42,11 @@ class Character(object):
 ADA = Character('Ada', 'she', 'her', 'herself')
         
 
-# == Story ==
-class Story(object):
+# == Chapter ==
+class Chapter(object):
     """
     A body of annotated text which takes the form of a string representing the excerpt.     
-    Variables, like *name* and *possessive pronoun* are recorded in the shorthand form:
+    Variables, like *name* and *possessive pronoun* are recorded in the markup form:
 
     * **name** : !n
     * **personal pronoun** : !ze
@@ -54,40 +54,101 @@ class Story(object):
     * **reflexive pronoun** : !zirself
 
     > \"**!n** dove into the water with **!zir** dress still on\"
-
     """
     def __init__(self, raw):
-        super(Story, self).__init__()
+        super(Chapter, self).__init__()
         self.raw = raw
     
     def generate(self, player):
         """
         Given a player (**Character**), we can take zir information and substitute it into the paragraph. 
         """
-        
-        curr_player = player
-        
-        story = self.raw.replace('@n', player.name)
-        story = story.replace('@ze', player.personal_pronoun)
-        story = story.replace('@zir', player.posessive_pronoun)
-        story = story.replace('@zirself', player.reflexive_pronoun)
 
-        return story
+        """
+        We start with an array of tuples, where each tuple has the form:
+        (custom-markup , player-attribute)
+        """
+        replacements = [
+                        ('@n', player.name),
+                        ('@N', player.name),
+                        ('@ze', player.personal_pronoun.lower()),
+                        ('@Ze', player.personal_pronoun.capitalize()),
+                        ('@zir', player.posessive_pronoun.lower()),
+                        ('@Zir', player.posessive_pronoun.capitalize()),
+                        ('@zirself', player.reflexive_pronoun.lower()),
+                        ('@Zirself', player.reflexive_pronoun.capitalize())
+                        ]
+
+        chapter = self.raw
+        # Now given the current chapter, perform all the replacements. 
+        # I'm sure that there's a more efficient way to do this, (maybe regex)
+        # but this'll have to do for now.
+        for r in replacements:
+            chapter = chapter.replace(r[0], r[1])
+
+        return chapter
+
+
+# == Story ==
+
+class Story(object):
+    """
+    A Story is a collection of chapters. 
+
+    While it represents a single tale, each tale can have multiple
+    branching endings based on user traits, and decisions. 
+    We accomplish this branching by having Stack of _accessed chapters_ 
+    ie, chapters that have been shown to the current user. 
+
+    * **chapters** : [Chapter, Chapter, ...]
+    """
+    def __init__(self, chapters):
+        super(Story, self).__init__()
+        self.chapters = chapters
+
+    def get_player_version(self, player):
+        """
+        Given a player, generate a custom version of all chapters
+        with the player's information spliced in. 
+        Note that it just runs on _all_ of the Story's chapters right now. 
+        In the future we'll figure out some branching logic here.
+
+        Return: String of text representing the full Story with Chapters
+                Separated by newlines.
+        """
+        
+        accessed_list = [c.generate(player) for c in self.chapters]
+        return '<br>'.join(accessed_list)
+
+        
+    
+
 
 # == Create Demo Story ==
 
 def create_demo_story():
     """
-    We use default arguments to generate a story for 
+    We use default arguments to generate a chapter for 
     testing. 
 
-    Return: String of text representing the generated story
+    Return: String of text representing the generated chapter
     """
     
     main_character = ADA
-    main_text = "@n drew @zir sword and declared war"
-    story = Story(main_text)
-    return story.generate(main_character)
+    
+    # We're just creating a set of sample text here, but we'll read from a db later
+    chapter1 = Chapter("@N drew @zir sword and declared war.")
+    chapter2 = Chapter("@Ze was afraid that @ze would never get to be @zirself in the current political climate.")
+    chapter3 = Chapter("@N's fear forced @ze into an uncomfortable position where @ze had no choice but bloodshed.")
+
+    story = Story([chapter1, chapter2, chapter3])
+
+    # Given the main character, generate a story with zir information filled in.
+    adas_story = story.get_player_version(main_character)
+
+    return adas_story
 
 def create_character(name, posessive_pronoun, personal_pronoun, reflexive_pronoun):
+    """A stubbed out function for creating a character in a db"""
+    
     character = Character(name, personal_pronoun, posessive_pronoun, reflexive_pronoun)
