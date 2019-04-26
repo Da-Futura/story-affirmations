@@ -9,7 +9,7 @@ which will walk zir down the tree of chapters.
 """
 
 
-from anytree import Node, RenderTree
+from anytree import Node, RenderTree, Resolver, Walker
 
 # == Character ==
 class Character(object):
@@ -50,12 +50,12 @@ class Chapter(object):
     A body of annotated text which takes the form of a string representing the excerpt.     
     Variables, like *name* and *possessive pronoun* are recorded in the markup form:
 
-    * **name** : !n
-    * **personal pronoun** : !ze
-    * **possessive pronoun** : !zir
-    * **reflexive pronoun** : !zirself
+    * **name** : @n
+    * **personal pronoun** : @ze
+    * **possessive pronoun** : @zir
+    * **reflexive pronoun** : @zirself
 
-    > \"**!n** dove into the water with **!zir** dress still on\"
+    > \"**@n** dove into the water with **@zir** dress still on\"
     """
     def __init__(self, raw):
         super(Chapter, self).__init__()
@@ -69,6 +69,8 @@ class Chapter(object):
         """
         We start with an list of tuples, where each tuple has the form:
         (custom-markup , player-attribute)
+        
+        Q: do I need to specify that those strings are unicode with the u'string' syntax?
         """
         replacements = [
                         ('@n', player.name),
@@ -84,7 +86,7 @@ class Chapter(object):
         chapter = self.raw
         # Now given the current chapter, perform all the replacements. 
         # I'm sure that there's a more efficient way to do this, (maybe regex)
-        # but this'll have to do for now.
+        # but this'll have to do for now.        
         for r in replacements:
             chapter = chapter.replace(r[0], r[1])
 
@@ -98,61 +100,55 @@ class Story(object):
     A Story is a collection of chapters. 
 
     While it represents a single tale, each tale can have multiple
-    branching endings based on user traits, and decisions. 
-
-    I'm considering a tree structure with each choice leading you down a branch.
-    We're just going to just use the [anytree](https://anytree.readthedocs.io/) library
+    branching endings based on user traits, and decisions. We're using
+    a tree structure with each choice leading you down a branch.
+    
+    I'm just going to just use the [anytree](https://anytree.readthedocs.io/) library
     because implementing the whole Node/Render tree class rigmarole got messy real fast. 
 
-
-    * **chapter_tree** : tree_root
+    * **chapter_tree** : tree_root_node
     """
     def __init__(self, chapter_tree):
         super(Story, self).__init__()
         self.chapter_tree = chapter_tree
 
 
-    def walk_chapter_tree(self, path, main_character):
+    def walk_chapter_tree(self, target):
         """
-        Given a path, walk through the character tree and return the current tale.
-        The path takes the form of an array of decisions stored as integers. 
-        eg. [0,0,1,2,1]
-
-        That path would translate to: 
-
-        * Start at root
-        * Choose the first child of root
-        * Choose the second child of that node
-        * Choose the third child of that node
-        * Choose the second child of that node
+        Given a target node, walk through the character tree and return the current tale.
+        The path takes the form of the name of the active node in the tree,
+        ie, where the player has reached in the tale.
         
-        * **path** : [choice, choice, choice, ...]
+        * **path** : [active_node_name]
         """
+        # The tale embodies the entierity of the story (at this point in time)
+        # It'll be returned as an array of Chapters (in the right order)
+        tale = []
 
-        # A quick print to test accessing the chapter through RenderTree
-        for pre, _, node in RenderTree(self.chapter_tree):
-            print("%s%s" % (pre, node.chapter.generate(main_character)))
+        # Resolvers are an [anytree](https://anytree.readthedocs.io/) class which is used for search
+        # Passing it 'name' is the way we tell it which attribute
+        # to search on. I imagine that we could pass it 'chapter' too
+        r = Resolver('name')
+
+        # Next we get the current node, ie, the chapter that the player
+        # is currently at.
+        # TODO: What if a node is missing?
+        curr_chapter = r.get(self.chapter_tree, target) 
+
+        # Now that we know where they ended up in the story, we can get
+        # their history by backtracking through the tree.
+        ancestors = curr_chapter.ancestors
+
+        for chapter in ancestors:            
+            tale.append(chapter) # Adding to the tale array
         
+        # Importantly, the list of a node's _ancestors_ don't include 
+        # the node, therefore, for the complete tale, we need to 
+        # add the current chapter
+        tale.append(curr_chapter)
 
-        return self.chapter_tree
+        return tale
 
-
-    def get_player_version(self, player):
-        """
-        Given a player, generate a custom version of all chapters
-        with the player's information spliced in. 
-        Note that it just runs on _all_ of the Story's chapters right now. 
-        
-        TODO: In the future we'll figure out some branching logic here.
-
-        Return: String of text representing the full Story with Chapters
-                Separated by newlines.
-        """
-        
-        accessed_list = [chapter.generate(player) for chapter in self.chapters]
-        return '<br>'.join(accessed_list)
-
-        
     
 
 
@@ -171,8 +167,8 @@ def create_demo_story():
     # We're just creating a set of sample text here, but we'll read from a db later
     chapter1 = Chapter("@N drew @zir sword and declared war.")
     chapter2 = Chapter("@Ze was afraid that @ze would never get to be @zirself in the current political climate.")
-    chapter3 = Chapter("@N's fear forced @ze into an uncomfortable position where @ze had no choice but bloodshed.")
-    chapter4 = Chapter("@N reconsidered and decided that @ze should just be lit instead")
+    chapter3 = Chapter("@Ze spent years of @zir life fighting tirelessly for equal rights and respect. ")
+    chapter4 = Chapter("@Ze reconsidered and decided that @ze should just be lit instead")
 
     # Now we create a tree with chapter1 as the root
     # This is where the strucure of the story, and the 
@@ -186,10 +182,12 @@ def create_demo_story():
     # Initialize a Story object with the root node
     # representing the chapter_tree
     story = Story(root)
+    adas_story = story.walk_chapter_tree('1/3')
+    
+    full_story_text = [node.chapter.generate(main_character) for node in adas_story]
+    
 
-    adas_story = story.walk_chapter_tree([0,0,1], main_character)        
-
-    return "Hello world"
+    return "<br>".join(full_story_text)
 
 def create_character(name, posessive_pronoun, personal_pronoun, reflexive_pronoun):
     """A stubbed out function for creating a character in a db"""

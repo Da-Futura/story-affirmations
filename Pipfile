@@ -12,3 +12,4 @@ anytree = "*"
 
 [dev-packages]
 pytest ="*"
+pylint = "*"
