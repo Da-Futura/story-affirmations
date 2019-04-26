@@ -275,8 +275,9 @@ h1{
 }
 /* Operator Word */
 .highlight .ow {
-  color: #000000;
+  color: #AA22FF;
   background-color: transparent;
+  font-weight: 400;
 }
 /* Base Style */
 .highlight .c {

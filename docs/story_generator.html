@@ -356,37 +356,6 @@ add the current chapter</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-21'>#</a>
       </div>
-      <p>Given a player, generate a custom version of all chapters
-with the player&rsquo;s information spliced in. 
-Note that it just runs on <em>all</em> of the Story&rsquo;s chapters right now. </p>
-<p>TODO: In the future we&rsquo;ll figure out some branching logic here.</p>
-<p>Return: String of text representing the full Story with Chapters
-        Separated by newlines.</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_player_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-22'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-22'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        
-        <span class="n">accessed_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">chapter</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">player</span><span class="p">)</span> <span class="k">for</span> <span class="n">chapter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chapters</span><span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;&lt;br&gt;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">accessed_list</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-23'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-23'>#</a>
-      </div>
       <h2><span id="create-demo-story" href="create-demo-story"> Create Demo Story </span></h2>
     </div>
     <div class='code'>
@@ -394,10 +363,10 @@ Note that it just runs on <em>all</em> of the Story&rsquo;s chapters right now. 
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-24'>
+  <div class='section' id='section-22'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-24'>#</a>
+        <a class='octothorpe' href='#section-22'>#</a>
       </div>
       <p>We use default arguments to generate a story for 
 testing. </p>
@@ -408,10 +377,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-25'>
+  <div class='section' id='section-23'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-25'>#</a>
+        <a class='octothorpe' href='#section-23'>#</a>
       </div>
       
     </div>
@@ -421,10 +390,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-26'>
+  <div class='section' id='section-24'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-26'>#</a>
+        <a class='octothorpe' href='#section-24'>#</a>
       </div>
       <p>We&rsquo;re just creating a set of sample text here, but we&rsquo;ll read from a db later</p>
     </div>
@@ -436,10 +405,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-27'>
+  <div class='section' id='section-25'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-27'>#</a>
+        <a class='octothorpe' href='#section-25'>#</a>
       </div>
       <p>Now we create a tree with chapter1 as the root
 This is where the strucure of the story, and the 
@@ -454,10 +423,10 @@ TODO automate the generation of the tree given some datastructure</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-28'>
+  <div class='section' id='section-26'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-28'>#</a>
+        <a class='octothorpe' href='#section-26'>#</a>
       </div>
       <p>Initialize a Story object with the root node
 representing the chapter_tree</p>
@@ -473,10 +442,10 @@ representing the chapter_tree</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-29'>
+  <div class='section' id='section-27'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-29'>#</a>
+        <a class='octothorpe' href='#section-27'>#</a>
       </div>
       <p>A stubbed out function for creating a character in a db</p>
     </div>
@@ -485,10 +454,10 @@ representing the chapter_tree</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-30'>
+  <div class='section' id='section-28'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-30'>#</a>
+        <a class='octothorpe' href='#section-28'>#</a>
       </div>
       
     </div>
