@@ -113,18 +113,19 @@ class Story(object):
     We accomplish this branching by having Stack of _accessed chapters_ 
     ie, chapters that have been shown to the current user. 
 
-    I'm considering a tree structure set in an array. I'm sure that there's
-    a fancier way to do this, with dedicated Node classes or the (anytree)[https://anytree.readthedocs.io/] library,
-    but I'm gonna just use an array/tuple structure for now. 
+    I'm considering a tree structure with each choice leading you down a branch.
+    We're just going to just use the (anytree)[https://anytree.readthedocs.io/] library
+    because implementing the whole Node/Render tree class rigmarole got messy real fast. 
 
-    * **chapter_tree** : [(ChapterL0, [ChapterL1, (ChapterL1, [ChapterL2])])]
+
+    * **chapter_tree** : tree_root
     """
     def __init__(self, chapter_tree):
         super(Story, self).__init__()
         self.chapter_tree = chapter_tree
 
 
-    def walk_chapter_tree(self, path):
+    def walk_chapter_tree(self, path, main_character):
         """
         Given a path, walk through the character tree and return the current tale.
         The path takes the form of an array of decisions stored as integers. 
@@ -140,6 +141,9 @@ class Story(object):
         
         * **path** : [choice, choice, choice, ...]
         """
+        for pre, _, node in RenderTree(self.chapter_tree):
+            print("%s%s" % (pre, node.chapter.generate(main_character)))
+
         return self.chapter_tree
 
 
@@ -178,16 +182,22 @@ def create_demo_story():
     chapter1 = Chapter("@N drew @zir sword and declared war.")
     chapter2 = Chapter("@Ze was afraid that @ze would never get to be @zirself in the current political climate.")
     chapter3 = Chapter("@N's fear forced @ze into an uncomfortable position where @ze had no choice but bloodshed.")
-    chapter4= Chapter("@N reconsidered and decided that @ze should just be lit instead")
+    chapter4 = Chapter("@N reconsidered and decided that @ze should just be lit instead")
 
-    # Note the structure that we're creating the chapter_tree with
-    # Each row is another level of the tree
-    story = Story([[chapter1, 
-                        [chapter2, 
-                            [chapter3, chapter4]]]])
+    # Now we create a tree with chapter1 as the root
+    # This is where the strucure of the story, and the 
+    # branching is defined. 
+    # TODO automate the generation of the tree given some datastructure
+    root = Node('0', chapter = chapter1)
+    s0 = Node('1', chapter= chapter2, parent=root)
+    s1a = Node('2', chapter = chapter3, parent=s0)
+    s1b = Node('3', chapter =chapter4, parent=s0)
 
-    adas_story = story.walk_chapter_tree([0,0,1])
-    # This should return [chapter1, chapter2, chapter4]
+    # Initialize a Story object with the root node
+    # representing the chapter_tree
+    story = Story(root)
+
+    adas_story = story.walk_chapter_tree([0,0,1], main_character)        
 
     return "Hello world"
 
