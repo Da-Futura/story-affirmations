@@ -65,7 +65,7 @@ class Chapter(object):
         """
 
         """
-        We start with an array of tuples, where each tuple has the form:
+        We start with an list of tuples, where each tuple has the form:
         (custom-markup , player-attribute)
         """
         replacements = [
@@ -111,13 +111,14 @@ class Story(object):
         Given a player, generate a custom version of all chapters
         with the player's information spliced in. 
         Note that it just runs on _all_ of the Story's chapters right now. 
-        In the future we'll figure out some branching logic here.
+        
+        TODO: In the future we'll figure out some branching logic here.
 
         Return: String of text representing the full Story with Chapters
                 Separated by newlines.
         """
         
-        accessed_list = [c.generate(player) for c in self.chapters]
+        accessed_list = [chapter.generate(player) for chapter in self.chapters]
         return '<br>'.join(accessed_list)
 
         
@@ -128,10 +129,10 @@ class Story(object):
 
 def create_demo_story():
     """
-    We use default arguments to generate a chapter for 
+    We use default arguments to generate a story for 
     testing. 
 
-    Return: String of text representing the generated chapter
+    Return: String of text representing the generated story
     """
     
     main_character = ADA

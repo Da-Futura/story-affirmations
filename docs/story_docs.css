@@ -122,15 +122,20 @@ div.clearall {
 }
 
 /* Ada's styles */
-h1{
-  font-family: 'Raleway', monospace;
+h1{  
+  font-family: 'Sniglet', serif;
   text-transform: uppercase;
-  font-size:46px;
-  font-weight: 400;
-  color: #222;
-  background-color: #f3e412;
+  font-size:38px;
+  font-weight: 800;
+  /* color: #555; */
+  /* background-image: url('https://i.gifer.com/Ozs.gif'); */
+  background-image: url('https://66.media.tumblr.com/3b42dac0e09e4c8f7ecd0c47ea01a034/tumblr_nskagaboBp1qc66bjo1_500.gif');
+  background-position-y: -305px;
   margin-bottom: 50px;
-  line-height: .4em;
+  line-height: 1em;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 
