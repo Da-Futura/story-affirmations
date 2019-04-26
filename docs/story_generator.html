@@ -20,17 +20,7 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">anytree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">RenderTree</span>
-
-<span class="n">udo</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Udo&quot;</span><span class="p">)</span>
-<span class="n">marc</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Marc&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">udo</span><span class="p">)</span>
-<span class="n">lian</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Lian&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">marc</span><span class="p">)</span>
-<span class="n">dan</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Dan&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">udo</span><span class="p">)</span>
-<span class="n">jet</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Jet&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">dan</span><span class="p">)</span>
-<span class="n">jan</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Jan&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">dan</span><span class="p">)</span>
-<span class="n">joe</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Joe&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">dan</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">RenderTree</span><span class="p">(</span><span class="n">udo</span><span class="p">))</span></pre></div>
+      <div class="highlight"><pre><span></span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -51,13 +41,13 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-2'>#</a>
       </div>
-      <p>We&rsquo;re going to parse a paragraph of annotated text 
-(usually a book excerpt), and then, given information 
-on the player, generate a new version of the text with 
-the player&rsquo;s infromation spliced in.</p>
+      <p>Given a set of annotated text excerpts represented as Chapters grouped
+in a tree structure of possible story branches, make a game where 
+the player can co-create the story based on a series of choices 
+which will walk zir down the tree of chapters.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">anytree</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">RenderTree</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -243,11 +233,9 @@ but this&rsquo;ll have to do for now.</p>
       </div>
       <p>A Story is a collection of chapters. </p>
 <p>While it represents a single tale, each tale can have multiple
-branching endings based on user traits, and decisions. 
-We accomplish this branching by having Stack of <em>accessed chapters</em> 
-ie, chapters that have been shown to the current user. </p>
+branching endings based on user traits, and decisions. </p>
 <p>I&rsquo;m considering a tree structure with each choice leading you down a branch.
-We&rsquo;re just going to just use the (anytree)[https://anytree.readthedocs.io/] library
+We&rsquo;re just going to just use the <a href="https://anytree.readthedocs.io/">anytree</a> library
 because implementing the whole Node/Render tree class rigmarole got messy real fast. </p>
 <ul>
 <li><strong>chapter_tree</strong> : tree_root</li>
@@ -307,10 +295,7 @@ eg. [0,0,1,2,1]</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">for</span> <span class="n">pre</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">RenderTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chapter_tree</span><span class="p">):</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">chapter</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">main_character</span><span class="p">)))</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chapter_tree</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -318,6 +303,22 @@ eg. [0,0,1,2,1]</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>A quick print to test accessing the chapter through RenderTree</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">for</span> <span class="n">pre</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">RenderTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chapter_tree</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">chapter</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">main_character</span><span class="p">)))</span>
+        
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chapter_tree</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
       </div>
       <p>Given a player, generate a custom version of all chapters
 with the player&rsquo;s information spliced in. 
@@ -331,10 +332,10 @@ Note that it just runs on <em>all</em> of the Story&rsquo;s chapters right now. 
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-18'>
+  <div class='section' id='section-19'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-18'>#</a>
+        <a class='octothorpe' href='#section-19'>#</a>
       </div>
       
     </div>
@@ -345,10 +346,10 @@ Note that it just runs on <em>all</em> of the Story&rsquo;s chapters right now. 
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-19'>
+  <div class='section' id='section-20'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-19'>#</a>
+        <a class='octothorpe' href='#section-20'>#</a>
       </div>
       <h2><span id="create-demo-story" href="create-demo-story"> Create Demo Story </span></h2>
     </div>
@@ -357,10 +358,10 @@ Note that it just runs on <em>all</em> of the Story&rsquo;s chapters right now. 
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-20'>
+  <div class='section' id='section-21'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-20'>#</a>
+        <a class='octothorpe' href='#section-21'>#</a>
       </div>
       <p>We use default arguments to generate a story for 
 testing. </p>
@@ -371,10 +372,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-21'>
+  <div class='section' id='section-22'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-21'>#</a>
+        <a class='octothorpe' href='#section-22'>#</a>
       </div>
       
     </div>
@@ -384,10 +385,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-22'>
+  <div class='section' id='section-23'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-22'>#</a>
+        <a class='octothorpe' href='#section-23'>#</a>
       </div>
       <p>We&rsquo;re just creating a set of sample text here, but we&rsquo;ll read from a db later</p>
     </div>
@@ -399,10 +400,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-23'>
+  <div class='section' id='section-24'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-23'>#</a>
+        <a class='octothorpe' href='#section-24'>#</a>
       </div>
       <p>Now we create a tree with chapter1 as the root
 This is where the strucure of the story, and the 
@@ -417,10 +418,10 @@ TODO automate the generation of the tree given some datastructure</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-24'>
+  <div class='section' id='section-25'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-24'>#</a>
+        <a class='octothorpe' href='#section-25'>#</a>
       </div>
       <p>Initialize a Story object with the root node
 representing the chapter_tree</p>
@@ -434,10 +435,10 @@ representing the chapter_tree</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-25'>
+  <div class='section' id='section-26'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-25'>#</a>
+        <a class='octothorpe' href='#section-26'>#</a>
       </div>
       <p>A stubbed out function for creating a character in a db</p>
     </div>
@@ -446,10 +447,10 @@ representing the chapter_tree</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-26'>
+  <div class='section' id='section-27'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-26'>#</a>
+        <a class='octothorpe' href='#section-27'>#</a>
       </div>
       
     </div>

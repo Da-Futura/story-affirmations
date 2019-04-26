@@ -6,11 +6,16 @@ body {
   color: #000000;
   margin: 0; padding: 0;
 }
-a {
+p a {
   color: #261a3b;
+  background-color: #08ffc9;
+  text-decoration: none;
 }
   a:visited {
     color: #261a3b;
+  }
+  a:hover{
+    background-color: #00d4a6;
   }
 p {
   margin: 0 0 15px 0;

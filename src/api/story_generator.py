@@ -1,26 +1,15 @@
-from anytree import Node, RenderTree
-
-udo = Node("Udo")
-marc = Node("Marc", parent=udo)
-lian = Node("Lian", parent=marc)
-dan = Node("Dan", parent=udo)
-jet = Node("Jet", parent=dan)
-jan = Node("Jan", parent=dan)
-joe = Node("Joe", parent=dan)
-
-print(RenderTree(udo))
-
 
 # == Intention ==
 
 """
-We're going to parse a paragraph of annotated text 
-(usually a book excerpt), and then, given information 
-on the player, generate a new version of the text with 
-the player's infromation spliced in.
+Given a set of annotated text excerpts represented as Chapters grouped
+in a tree structure of possible story branches, make a game where 
+the player can co-create the story based on a series of choices 
+which will walk zir down the tree of chapters.
 """
 
 
+from anytree import Node, RenderTree
 
 # == Character ==
 class Character(object):
@@ -110,11 +99,9 @@ class Story(object):
 
     While it represents a single tale, each tale can have multiple
     branching endings based on user traits, and decisions. 
-    We accomplish this branching by having Stack of _accessed chapters_ 
-    ie, chapters that have been shown to the current user. 
 
     I'm considering a tree structure with each choice leading you down a branch.
-    We're just going to just use the (anytree)[https://anytree.readthedocs.io/] library
+    We're just going to just use the [anytree](https://anytree.readthedocs.io/) library
     because implementing the whole Node/Render tree class rigmarole got messy real fast. 
 
 
@@ -141,8 +128,11 @@ class Story(object):
         
         * **path** : [choice, choice, choice, ...]
         """
+
+        # A quick print to test accessing the chapter through RenderTree
         for pre, _, node in RenderTree(self.chapter_tree):
             print("%s%s" % (pre, node.chapter.generate(main_character)))
+        
 
         return self.chapter_tree
 
