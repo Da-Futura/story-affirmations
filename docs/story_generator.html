@@ -224,8 +224,11 @@ but this&rsquo;ll have to do for now.</p>
 branching endings based on user traits, and decisions. 
 We accomplish this branching by having Stack of <em>accessed chapters</em> 
 ie, chapters that have been shown to the current user. </p>
+<p>I&rsquo;m considering a tree structure set in an array. I&rsquo;m sure that there&rsquo;s
+a fancier way to do this, with dedicated Node classes or the (anytree)[https://anytree.readthedocs.io/] library,
+but I&rsquo;m gonna just use an array/tuple structure for now. </p>
 <ul>
-<li><strong>chapters</strong> : [Chapter, Chapter, &hellip;]</li>
+<li><strong>chapter_tree</strong> : [(ChapterL0, [ChapterL1, (ChapterL1, [ChapterL2])])]</li>
 </ul>
     </div>
     <div class='code'>
@@ -241,9 +244,9 @@ ie, chapters that have been shown to the current user. </p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chapters</span><span class="p">):</span>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chapter_tree</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Story</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">chapters</span> <span class="o">=</span> <span class="n">chapters</span></pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chapter_tree</span> <span class="o">=</span> <span class="n">chapter_tree</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -251,6 +254,62 @@ ie, chapters that have been shown to the current user. </p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p>Given a path, walk through the character tree and return the current tale.
+The path takes the form of an array of decisions stored as integers. 
+eg. [0,0,1,2,1]</p>
+<p>That path would translate to: </p>
+<ul>
+<li>Start at root</li>
+<li>Choose the first child of root</li>
+<li>Choose the second child of that node</li>
+<li>Choose the third child of that node</li>
+<li>
+<p>Choose the second child of that node</p>
+</li>
+<li>
+<p><strong>path</strong> : [choice, choice, choice, &hellip;]</p>
+</li>
+</ul>
+<p>The question is, given  <em>[(ChapterL0, [ChapterL1, (ChapterL1, [ChapterL2])])]</em>,
+how do we get to ChapterL2? </p>
+<p><code>chapter_tree[0][1][0]</code></p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">walk_chapter_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">chapters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">currLocation</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="n">currLocation</span> <span class="o">=</span> <span class="n">currLocation</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">choice</span><span class="p">)</span>
+            <span class="n">currNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chapter_tree</span><span class="p">[</span><span class="n">currLocation</span><span class="p">]</span>
+            <span class="n">chapters</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">currNode</span><span class="p">)</span>
+
+            
+            
+
+        
+        <span class="k">print</span><span class="p">(</span><span class="n">chapters</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chapter_tree</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
       </div>
       <p>Given a player, generate a custom version of all chapters
 with the player&rsquo;s information spliced in. 
@@ -264,24 +323,24 @@ Note that it just runs on <em>all</em> of the Story&rsquo;s chapters right now. 
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-15'>
+  <div class='section' id='section-17'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-15'>#</a>
+        <a class='octothorpe' href='#section-17'>#</a>
       </div>
       
     </div>
     <div class='code'>
       <div class="highlight"><pre>        
-        <span class="n">accessed_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">player</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chapters</span><span class="p">]</span>
+        <span class="n">accessed_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">chapter</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">player</span><span class="p">)</span> <span class="k">for</span> <span class="n">chapter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chapters</span><span class="p">]</span>
         <span class="k">return</span> <span class="s1">&#39;&lt;br&gt;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">accessed_list</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-16'>
+  <div class='section' id='section-18'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-16'>#</a>
+        <a class='octothorpe' href='#section-18'>#</a>
       </div>
       <h2><span id="create-demo-story" href="create-demo-story"> Create Demo Story </span></h2>
     </div>
@@ -290,10 +349,10 @@ Note that it just runs on <em>all</em> of the Story&rsquo;s chapters right now. 
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-17'>
+  <div class='section' id='section-19'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-17'>#</a>
+        <a class='octothorpe' href='#section-19'>#</a>
       </div>
       <p>We use default arguments to generate a story for 
 testing. </p>
@@ -304,10 +363,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-18'>
+  <div class='section' id='section-20'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-18'>#</a>
+        <a class='octothorpe' href='#section-20'>#</a>
       </div>
       
     </div>
@@ -317,10 +376,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-19'>
+  <div class='section' id='section-21'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-19'>#</a>
+        <a class='octothorpe' href='#section-21'>#</a>
       </div>
       <p>We&rsquo;re just creating a set of sample text here, but we&rsquo;ll read from a db later</p>
     </div>
@@ -328,29 +387,43 @@ testing. </p>
       <div class="highlight"><pre>    <span class="n">chapter1</span> <span class="o">=</span> <span class="n">Chapter</span><span class="p">(</span><span class="s2">&quot;@N drew @zir sword and declared war.&quot;</span><span class="p">)</span>
     <span class="n">chapter2</span> <span class="o">=</span> <span class="n">Chapter</span><span class="p">(</span><span class="s2">&quot;@Ze was afraid that @ze would never get to be @zirself in the current political climate.&quot;</span><span class="p">)</span>
     <span class="n">chapter3</span> <span class="o">=</span> <span class="n">Chapter</span><span class="p">(</span><span class="s2">&quot;@N&#39;s fear forced @ze into an uncomfortable position where @ze had no choice but bloodshed.&quot;</span><span class="p">)</span>
-
-    <span class="n">story</span> <span class="o">=</span> <span class="n">Story</span><span class="p">([</span><span class="n">chapter1</span><span class="p">,</span> <span class="n">chapter2</span><span class="p">,</span> <span class="n">chapter3</span><span class="p">])</span></pre></div>
+    <span class="n">chapter4</span><span class="o">=</span> <span class="n">Chapter</span><span class="p">(</span><span class="s2">&quot;@N reconsidered and decided that @ze should just be lit instead&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-20'>
+  <div class='section' id='section-22'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-20'>#</a>
+        <a class='octothorpe' href='#section-22'>#</a>
       </div>
-      <p>Given the main character, generate a story with zir information filled in.</p>
+      <p>Note the structure that we&rsquo;re creating the chapter_tree with
+Each row is another level of the tree</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">adas_story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">get_player_version</span><span class="p">(</span><span class="n">main_character</span><span class="p">)</span>
+      <div class="highlight"><pre>    <span class="n">story</span> <span class="o">=</span> <span class="n">Story</span><span class="p">([(</span><span class="n">chapter1</span><span class="p">,</span> 
+                        <span class="p">(</span><span class="n">chapter2</span><span class="p">,</span> 
+                            <span class="p">[</span><span class="n">chapter3</span><span class="p">,</span> <span class="n">chapter4</span><span class="p">]))])</span>
 
-    <span class="k">return</span> <span class="n">adas_story</span></pre></div>
+    <span class="n">adas_story</span> <span class="o">=</span> <span class="n">story</span><span class="o">.</span><span class="n">walk_chapter_tree</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-21'>
+  <div class='section' id='section-23'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-21'>#</a>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <p>This should return [chapter1, chapter2, chapter4]</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="s2">&quot;Hello world&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
       </div>
       <p>A stubbed out function for creating a character in a db</p>
     </div>
@@ -359,10 +432,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-22'>
+  <div class='section' id='section-25'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-22'>#</a>
+        <a class='octothorpe' href='#section-25'>#</a>
       </div>
       
     </div>

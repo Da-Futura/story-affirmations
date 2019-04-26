@@ -100,11 +100,35 @@ class Story(object):
     We accomplish this branching by having Stack of _accessed chapters_ 
     ie, chapters that have been shown to the current user. 
 
-    * **chapters** : [Chapter, Chapter, ...]
+    I'm considering a tree structure set in an array. I'm sure that there's
+    a fancier way to do this, with dedicated Node classes or the (anytree)[https://anytree.readthedocs.io/] library,
+    but I'm gonna just use an array/tuple structure for now. 
+
+    * **chapter_tree** : [(ChapterL0, [ChapterL1, (ChapterL1, [ChapterL2])])]
     """
-    def __init__(self, chapters):
+    def __init__(self, chapter_tree):
         super(Story, self).__init__()
-        self.chapters = chapters
+        self.chapter_tree = chapter_tree
+
+
+    def walk_chapter_tree(self, path):
+        """
+        Given a path, walk through the character tree and return the current tale.
+        The path takes the form of an array of decisions stored as integers. 
+        eg. [0,0,1,2,1]
+
+        That path would translate to: 
+
+        * Start at root
+        * Choose the first child of root
+        * Choose the second child of that node
+        * Choose the third child of that node
+        * Choose the second child of that node
+        
+        * **path** : [choice, choice, choice, ...]
+        """
+        return self.chapter_tree
+
 
     def get_player_version(self, player):
         """
@@ -141,13 +165,18 @@ def create_demo_story():
     chapter1 = Chapter("@N drew @zir sword and declared war.")
     chapter2 = Chapter("@Ze was afraid that @ze would never get to be @zirself in the current political climate.")
     chapter3 = Chapter("@N's fear forced @ze into an uncomfortable position where @ze had no choice but bloodshed.")
+    chapter4= Chapter("@N reconsidered and decided that @ze should just be lit instead")
 
-    story = Story([chapter1, chapter2, chapter3])
+    # Note the structure that we're creating the chapter_tree with
+    # Each row is another level of the tree
+    story = Story([[chapter1, 
+                        [chapter2, 
+                            [chapter3, chapter4]]]])
 
-    # Given the main character, generate a story with zir information filled in.
-    adas_story = story.get_player_version(main_character)
+    adas_story = story.walk_chapter_tree([0,0,1])
+    # This should return [chapter1, chapter2, chapter4]
 
-    return adas_story
+    return "Hello world"
 
 def create_character(name, posessive_pronoun, personal_pronoun, reflexive_pronoun):
     """A stubbed out function for creating a character in a db"""
