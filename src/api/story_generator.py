@@ -2,10 +2,8 @@
 # == Intention ==
 
 """
-Given a set of annotated text excerpts represented as Chapters grouped
-in a tree structure of possible story branches, make a game where 
-the player can co-create the story based on a series of choices 
-which will walk zir down the tree of chapters.
+Create an interactive fiction game where the player's name/pronouns
+are spliced into the story. 
 """
 
 
