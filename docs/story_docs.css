@@ -133,9 +133,10 @@ h1{
   font-size:38px;
   font-weight: 800;
   /* color: #555; */
-  /* background-image: url('https://i.gifer.com/Ozs.gif'); */
-  background-image: url('https://66.media.tumblr.com/3b42dac0e09e4c8f7ecd0c47ea01a034/tumblr_nskagaboBp1qc66bjo1_500.gif');
-  background-position-y: -305px;
+  background-image: url('https://i.gifer.com/Ozs.gif');
+  /* background-image: url('https://66.media.tumblr.com/3b42dac0e09e4c8f7ecd0c47ea01a034/tumblr_nskagaboBp1qc66bjo1_500.gif'); */
+  /* background-image: url('https://66.media.tumblr.com/9a4259fb6b39899a70f5f421ed36ce31/tumblr_inline_nlgtzavNMq1ss7482.gif'); */
+  background-position: center;
   margin-bottom: 50px;
   line-height: 1em;
   -webkit-background-clip: text;

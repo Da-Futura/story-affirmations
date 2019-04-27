@@ -236,7 +236,7 @@ but this&rsquo;ll have to do for now.        </p>
 <p>While it represents a single tale, each tale can have multiple
 branching endings based on user traits, and decisions. We&rsquo;re using
 a tree structure with each choice leading you down a branch.</p>
-<p>I&rsquo;m just going to just use the <a href="https://anytree.readthedocs.io/">anytree</a> library
+<p>I&rsquo;m just going use the <a href="https://anytree.readthedocs.io/">anytree</a> library
 because implementing the whole Node/Render tree class rigmarole got messy real fast. </p>
 <ul>
 <li><strong>chapter_tree</strong> : tree_root_node</li>
@@ -266,15 +266,10 @@ because implementing the whole Node/Render tree class rigmarole got messy real f
       <div class='octowrap'>
         <a class='octothorpe' href='#section-15'>#</a>
       </div>
-      <p>Given a target node, walk through the character tree and return the current tale.
-The path takes the form of the name of the active node in the tree,
-ie, where the player has reached in the tale.</p>
-<ul>
-<li><strong>path</strong> : [active_node_name]</li>
-</ul>
+      <h3><span id="walk_chapter_tree" href="walk_chapter_tree"> walk_chapter_tree </span></h3>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">walk_chapter_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -282,6 +277,23 @@ ie, where the player has reached in the tale.</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>Given a target node, walk through the character tree and return the current tale.
+The path takes the form of the name of the active node in the tree,
+ie, where the player has reached in the tale.</p>
+<ul>
+<li><strong>target</strong> : [active_node_name]</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">walk_chapter_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
       </div>
       <p>The tale embodies the entierity of the story (at this point in time)
 It&rsquo;ll be returned as an array of Chapters (in the right order)</p>
@@ -291,10 +303,10 @@ It&rsquo;ll be returned as an array of Chapters (in the right order)</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-17'>
+  <div class='section' id='section-18'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-17'>#</a>
+        <a class='octothorpe' href='#section-18'>#</a>
       </div>
       <p>Resolvers are an <a href="https://anytree.readthedocs.io/">anytree</a> class which is used for search
 Passing it &lsquo;name&rsquo; is the way we tell it which attribute
@@ -305,10 +317,10 @@ to search on. I imagine that we could pass it &lsquo;chapter&rsquo; too</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-18'>
+  <div class='section' id='section-19'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-18'>#</a>
+        <a class='octothorpe' href='#section-19'>#</a>
       </div>
       <p>Next we get the current node, ie, the chapter that the player
 is currently at.
@@ -319,10 +331,10 @@ TODO: What if a node is missing?</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-19'>
+  <div class='section' id='section-20'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-19'>#</a>
+        <a class='octothorpe' href='#section-20'>#</a>
       </div>
       <p>Now that we know where they ended up in the story, we can get
 their history by backtracking through the tree.</p>
@@ -335,13 +347,13 @@ their history by backtracking through the tree.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-20'>
+  <div class='section' id='section-21'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-20'>#</a>
+        <a class='octothorpe' href='#section-21'>#</a>
       </div>
       <p>Importantly, the list of a node&rsquo;s <em>ancestors</em> don&rsquo;t include 
-the node, therefore, for the complete tale, we need to 
+the node itself, therefore, for the complete tale, we need to 
 add the current chapter</p>
     </div>
     <div class='code'>
@@ -351,10 +363,10 @@ add the current chapter</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-21'>
+  <div class='section' id='section-22'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-21'>#</a>
+        <a class='octothorpe' href='#section-22'>#</a>
       </div>
       <h2><span id="create-demo-story" href="create-demo-story"> Create Demo Story </span></h2>
     </div>
@@ -363,10 +375,10 @@ add the current chapter</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-22'>
+  <div class='section' id='section-23'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-22'>#</a>
+        <a class='octothorpe' href='#section-23'>#</a>
       </div>
       <p>We use default arguments to generate a story for 
 testing. </p>
@@ -377,10 +389,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-23'>
+  <div class='section' id='section-24'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-23'>#</a>
+        <a class='octothorpe' href='#section-24'>#</a>
       </div>
       
     </div>
@@ -390,10 +402,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-24'>
+  <div class='section' id='section-25'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-24'>#</a>
+        <a class='octothorpe' href='#section-25'>#</a>
       </div>
       <p>We&rsquo;re just creating a set of sample text here, but we&rsquo;ll read from a db later</p>
     </div>
@@ -405,10 +417,10 @@ testing. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-25'>
+  <div class='section' id='section-26'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-25'>#</a>
+        <a class='octothorpe' href='#section-26'>#</a>
       </div>
       <p>Now we create a tree with chapter1 as the root
 This is where the strucure of the story, and the 
@@ -423,10 +435,10 @@ TODO automate the generation of the tree given some datastructure</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-26'>
+  <div class='section' id='section-27'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-26'>#</a>
+        <a class='octothorpe' href='#section-27'>#</a>
       </div>
       <p>Initialize a Story object with the root node
 representing the chapter_tree</p>
@@ -442,10 +454,10 @@ representing the chapter_tree</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-27'>
+  <div class='section' id='section-28'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-27'>#</a>
+        <a class='octothorpe' href='#section-28'>#</a>
       </div>
       <p>A stubbed out function for creating a character in a db</p>
     </div>
@@ -454,10 +466,10 @@ representing the chapter_tree</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-28'>
+  <div class='section' id='section-29'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-28'>#</a>
+        <a class='octothorpe' href='#section-29'>#</a>
       </div>
       
     </div>

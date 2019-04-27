@@ -103,7 +103,7 @@ class Story(object):
     branching endings based on user traits, and decisions. We're using
     a tree structure with each choice leading you down a branch.
     
-    I'm just going to just use the [anytree](https://anytree.readthedocs.io/) library
+    I'm just going use the [anytree](https://anytree.readthedocs.io/) library
     because implementing the whole Node/Render tree class rigmarole got messy real fast. 
 
     * **chapter_tree** : tree_root_node
@@ -113,13 +113,15 @@ class Story(object):
         self.chapter_tree = chapter_tree
 
 
+# === walk_chapter_tree ===
+
     def walk_chapter_tree(self, target):
         """
         Given a target node, walk through the character tree and return the current tale.
         The path takes the form of the name of the active node in the tree,
         ie, where the player has reached in the tale.
         
-        * **path** : [active_node_name]
+        * **target** : [active_node_name]
         """
         # The tale embodies the entierity of the story (at this point in time)
         # It'll be returned as an array of Chapters (in the right order)
@@ -143,7 +145,7 @@ class Story(object):
             tale.append(chapter) # Adding to the tale array
         
         # Importantly, the list of a node's _ancestors_ don't include 
-        # the node, therefore, for the complete tale, we need to 
+        # the node itself, therefore, for the complete tale, we need to 
         # add the current chapter
         tale.append(curr_chapter)
 
