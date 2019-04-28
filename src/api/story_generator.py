@@ -95,7 +95,7 @@ class Chapter(object):
 
 class Story(object):
     """
-    A Story is a collection of chapters. 
+    A Story is a collection of Chapters represented in a tree.
 
     While it represents a single tale, each tale can have multiple
     branching endings based on user traits, and decisions. We're using
@@ -104,18 +104,57 @@ class Story(object):
     I'm just going use the [anytree](https://anytree.readthedocs.io/) library
     because implementing the whole Node/Render tree class rigmarole got messy real fast. 
 
+    Note that this class is all about manipulating a _tree_ of chapters,
+    so we're going to have to be mindful to unpack our Nodes when we 
+    actually want to get Chapters to display text.
+
     * **chapter_tree** : tree_root_node
     """
     def __init__(self, chapter_tree):
         super(Story, self).__init__()
         self.chapter_tree = chapter_tree
 
+# === get_current_choices ===
+
+    def get_current_choices(self, curr_chapter_path):
+        """
+        Get the current options that are available for the player to
+        choose from.
+
+        * ** chapter_path** : [active_node_name]
+        """
+
+        # WIll contain an array of all possible chapters that the player
+        # can access from their current point in the tale.
+        choices = []
+
+        # Resolver is an [anytree](https://anytree.readthedocs.io/) class which is used for search.
+        # Passing it 'name' is the way we tell it which attribute
+        # to search on. I imagine that we could pass it 'chapter' too
+        r = Resolver('name')
+
+        # Next we get the current node, ie, the chapter that the player
+        # is currently at.
+        # TODO: What if a node is missing?
+        curr_chapter = r.get(self.chapter_tree, curr_chapter_path) 
+
+        # Now that we know where they ended up, we can get the next possible
+        # steps by checking for their children (ie one level down the tree)
+        children = curr_chapter.children
+
+        for chapter_node in children:
+            choices.append(chapter_node) # Add each choice to the choices list
+        
+        print(choices)
+        return choices
+        
+
 
 # === walk_chapter_tree ===
 
-    def walk_chapter_tree(self, target):
+    def walk_chapter_tree(self, curr_chapter_path):
         """
-        Given a target node, walk through the character tree and return the current tale.
+        Walk through the character tree and return the current tale.
         The path takes the form of the name of the active node in the tree,
         ie, where the player has reached in the tale.
         
@@ -125,22 +164,19 @@ class Story(object):
         # It'll be returned as an array of Chapters (in the right order)
         tale = []
 
-        # Resolvers are an [anytree](https://anytree.readthedocs.io/) class which is used for search
-        # Passing it 'name' is the way we tell it which attribute
-        # to search on. I imagine that we could pass it 'chapter' too
+        # Initializing an [anytree](https://anytree.readthedocs.io/) Resolver for search
         r = Resolver('name')
 
         # Next we get the current node, ie, the chapter that the player
         # is currently at.
-        # TODO: What if a node is missing?
-        curr_chapter = r.get(self.chapter_tree, target) 
+        curr_chapter = r.get(self.chapter_tree, curr_chapter_path) 
 
         # Now that we know where they ended up in the story, we can get
         # their history by backtracking through the tree.
         ancestors = curr_chapter.ancestors
 
-        for chapter in ancestors:            
-            tale.append(chapter) # Adding to the tale array
+        for chapter_node in ancestors:            
+            tale.append(chapter_node) # Add each tale to the tale list
         
         # Importantly, the list of a node's _ancestors_ don't include 
         # the node itself, therefore, for the complete tale, we need to 
@@ -183,6 +219,7 @@ def create_demo_story():
     # representing the chapter_tree
     story = Story(root)
     adas_story = story.walk_chapter_tree('1/3')
+    adas_choices = story.get_current_choices('1')
     
     full_story_text = [node.chapter.generate(main_character) for node in adas_story]
     
