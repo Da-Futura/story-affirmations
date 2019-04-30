@@ -8,6 +8,8 @@ are spliced into the story.
 
 
 from anytree import Node, RenderTree, Resolver, Walker
+import importlib
+import api.db as dbService
 
 # == Character ==
 class Character(object):
@@ -110,9 +112,10 @@ class Story(object):
 
     * **chapter_tree** : tree_root_node
     """
-    def __init__(self, chapter_tree):
+    def __init__(self, chapter_tree, title):
         super(Story, self).__init__()
         self.chapter_tree = chapter_tree
+        self.title = title
 
 # === get_current_choices ===
 
@@ -158,7 +161,7 @@ class Story(object):
         The path takes the form of the name of the active node in the tree,
         ie, where the player has reached in the tale.
         
-        * **target** : [active_node_name]
+        * **curr_chapter_path** : [active_node_name]
         """
         # The tale embodies the entierity of the story (at this point in time)
         # It'll be returned as an array of Chapters (in the right order)
@@ -199,6 +202,14 @@ def create_demo_story():
     """
     
     main_character = ADA
+
+    specific_stories = dbService.db.child("stories").order_by_child("title").equal_to("Great Expectations").get().val()
+    # print(next(iter(specific_stories)))
+    # print(specific_stories.popitem()[1])
+    all_stories = dbService.get_all_documents('stories')
+    print('All Stories:')
+    print(all_stories)
+
     
     # We're just creating a set of sample text here, but we'll read from a db later
     chapter1 = Chapter("@N drew @zir sword and declared war.")
@@ -217,16 +228,11 @@ def create_demo_story():
 
     # Initialize a Story object with the root node
     # representing the chapter_tree
-    story = Story(root)
+    story = Story(root, 'Dragon Slayer')
     adas_story = story.walk_chapter_tree('1/3')
     adas_choices = story.get_current_choices('1')
     
     full_story_text = [node.chapter.generate(main_character) for node in adas_story]
-    
 
     return "<br>".join(full_story_text)
 
-def create_character(name, posessive_pronoun, personal_pronoun, reflexive_pronoun):
-    """A stubbed out function for creating a character in a db"""
-    
-    character = Character(name, personal_pronoun, posessive_pronoun, reflexive_pronoun)

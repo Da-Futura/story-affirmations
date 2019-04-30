@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>db.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>db.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <h2><span id="intention" href="intention"> Intention </span></h2>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>Helper functions for accessing a firebase database.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p><strong>Pyrebase</strong> is a fun little pythonic library for accessing firebase. <br>
+We need to specify the <a href="https://github.com/nhorvath/Pyrebase4">pyrebase4</a> fork though.
+The main project is no longer maintained. Additionally, pyrebase doesn&rsquo;t have access
+to the newer firebase Firestore database, only the older Realtime Database.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyrebase</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p><strong>environs</strong> gives us handy tools for handling environment variables</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">environs</span> <span class="kn">import</span> <span class="n">Env</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Create an Env instance, and with it, read the file with our
+API keys. It defaults to searching for a file with the name <em>.env</em>, but we could 
+point it elsewhere if necessary.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">env</span> <span class="o">=</span> <span class="n">Env</span><span class="p">()</span>
+<span class="n">env</span><span class="o">.</span><span class="n">read_env</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Our firebase configuration settings. <br>
+The strange one is the <strong>serviceAccount</strong> which points to a json file with additional creds
+this gives the application admin access to the db so we can make changes w/o needing explicit permissions.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;apiKey&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">(</span><span class="s2">&quot;FIRE_APIKEY&quot;</span><span class="p">),</span>
+  <span class="s2">&quot;authDomain&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">(</span><span class="s2">&quot;FIRE_AUTH_DOMAIN&quot;</span><span class="p">),</span>
+  <span class="s2">&quot;databaseURL&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">(</span><span class="s2">&quot;FIRE_DB_URL&quot;</span><span class="p">),</span>
+  <span class="s2">&quot;storageBucket&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">(</span><span class="s2">&quot;FIRE_STORAGE_BUCKET&quot;</span><span class="p">),</span>
+  <span class="s2">&quot;serviceAccount&quot;</span><span class="p">:</span> <span class="n">env</span><span class="p">(</span><span class="s2">&quot;FIRE_SERVICE_ACCOUNT&quot;</span><span class="p">)</span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>The base connection to firebase.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">firebase</span> <span class="o">=</span> <span class="n">pyrebase</span><span class="o">.</span><span class="n">initialize_app</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>The specific connection to our firebase Realtime Database. <br>
+<strong>All writes</strong> to the database will pass through this connection on the server.
+[ The <a href="svelte.dev">svelte</a> application in the browser will only have read access to firebase ]</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">db</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">database</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>Given a document root as stored in the db,
+this function will return an array of all child documents. <br>
+<strong>Example:</strong> <br>
+<code>get_all_documents('stories')</code> <br>
+>&gt; [{&lsquo;id&rsquo; : &lsquo;SR13&rsquo;, &lsquo;title&rsquo;: &lsquo;The Fifth Season&rsquo;},
+    {&lsquo;id&rsquo; : &lsquo;SR14&rsquo;, &lsquo;title&rsquo; : &lsquo;Provenance&rsquo;} &hellip;]
+    <br></p>
+<ul>
+<li><strong>root_name</strong> : <string> The root of the document tree (&lsquo;stories&rsquo;, &lsquo;chapters&rsquo;, etc.)</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_all_documents</span><span class="p">(</span><span class="n">root_name</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>Using our db connection, get all documents with the root, <strong>root_name</strong></p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="n">documents</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="n">root_name</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>The <strong>doc_list</strong> will eventually be a list of document objects
+formatted in a more workable manner than the OrderedDicts that we get. * <br> </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="n">doc_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">documents</span><span class="o">.</span><span class="n">each</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p><strong>documents</strong> are an OrderedDict containing the results of our query. 
+Each <strong>doc</strong> within it has a key and a val. The key is the document id, which
+we&rsquo;ll use to reference the document for db manipulation later, and the val
+contains the document object itself. That&rsquo;ll be things like the &lsquo;title&rsquo;, 
+&lsquo;username&rsquo;, &lsquo;chapter_list&rsquo;</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">doc_object</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">val</span><span class="p">()</span>
+    <span class="n">doc_object</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">key</span><span class="p">()</span>
+    <span class="n">doc_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_object</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">doc_list</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>* I hope that I don&rsquo;t end up missing out on something special here.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
+<link href="https://fonts.googleapis.com/css?family=Sniglet:800|Bitter|Ubuntu+Mono:400,700|VT323" rel="stylesheet"> <link rel="stylesheet" href="story_docs.css">

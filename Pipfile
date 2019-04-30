@@ -9,6 +9,8 @@ python_version = '3.7'
 [packages]
 flask = "*"
 anytree = "*"
+environs = "*"
+pyrebase4 = "*"
 
 [dev-packages]
 pytest ="*"
