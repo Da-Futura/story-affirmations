@@ -15,3 +15,6 @@ pyrebase4 = "*"
 [dev-packages]
 pytest ="*"
 pylint = "*"
+
+[pipenv]
+allow_prereleases = true

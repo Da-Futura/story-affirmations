@@ -9,6 +9,7 @@ are spliced into the story.
 # I'm just going use the [anytree](https://anytree.readthedocs.io/) library to represent
 # the tree strucure of the game.
 from anytree import Node, RenderTree, Resolver, Walker
+
 import api.db as dbService
 
 # == Character ==
