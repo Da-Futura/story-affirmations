@@ -6,9 +6,9 @@ Create an interactive fiction game where the player's name/pronouns
 are spliced into the story. 
 """
 
-
+# I'm just going use the [anytree](https://anytree.readthedocs.io/) library to represent
+# the tree strucure of the game.
 from anytree import Node, RenderTree, Resolver, Walker
-import importlib
 import api.db as dbService
 
 # == Character ==
@@ -101,10 +101,7 @@ class Story(object):
 
     While it represents a single tale, each tale can have multiple
     branching endings based on user traits, and decisions. We're using
-    a tree structure with each choice leading you down a branch.
-    
-    I'm just going use the [anytree](https://anytree.readthedocs.io/) library
-    because implementing the whole Node/Render tree class rigmarole got messy real fast. 
+    a tree structure with each choice leading you down a branch.    
 
     Note that this class is all about manipulating a _tree_ of chapters,
     so we're going to have to be mindful to unpack our Nodes when we 

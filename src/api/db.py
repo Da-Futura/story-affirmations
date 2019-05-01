@@ -67,8 +67,7 @@ def get_all_documents(root_name):
 
   for doc in documents.each():
     """
-    **documents** are an OrderedDict containing the results of our query. 
-    Each **doc** within it has a key and a val. The key is the document id, which
+    Each **doc** within **documents** has a key and a val. The key is the document id, which
     we'll use to reference the document for db manipulation later, and the val
     contains the document object itself. That'll be things like the 'title', 
     'username', 'chapter_list'
