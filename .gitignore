@@ -1,6 +1,7 @@
 .cache/
-./ts-fb-serv-key.json
+ts-fb-serv-key.json
 .pytest_cache/
 .env
 dist/
+fbs_service_key.json
 node_modules/
