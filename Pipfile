@@ -11,6 +11,8 @@ flask = "*"
 anytree = "*"
 environs = "*"
 pyrebase4 = "*"
+networkx = "*"
+pygraphviz = "*"
 
 [dev-packages]
 pytest ="*"

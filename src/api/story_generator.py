@@ -1,4 +1,3 @@
-
 # == Intention ==
 
 """
@@ -6,11 +5,11 @@ Create an interactive fiction game where the player's name/pronouns
 are spliced into the story. 
 """
 
-# I'm just going use the [anytree](https://anytree.readthedocs.io/) library to represent
-# the tree strucure of the game.
-from anytree import Node, RenderTree, Resolver, Walker
-
 import api.db as dbService
+import api.utils as utils
+# I'm just going use the [networkx](networkx.github.io) library to represent
+# the graph strucure of the game.
+import networkx as nx
 
 # == Character ==
 class Character(object):
@@ -93,100 +92,53 @@ class Chapter(object):
 
         return chapter
 
-
 # == Story ==
 
 class Story(object):
     """
-    A Story is a collection of Chapters represented in a tree.
+    A graph of all the possible variations of a tale. <br>
+    Each chapter is a node in the graph, and the edges between them
+    are _directed_ edges indicating which chapter leads to the other, <br>
 
-    While it represents a single tale, each tale can have multiple
-    branching endings based on user traits, and decisions. We're using
-    a tree structure with each choice leading you down a branch.    
+    eg. <br>
+    A --> B --> C <br>
+    | <br>
+    v <br>
+    D --> E
 
-    Note that this class is all about manipulating a _tree_ of chapters,
-    so we're going to have to be mindful to unpack our Nodes when we 
-    actually want to get Chapters to display text.
+    ChapterA can lead to both ChapterB, **and** ChapterD, which in turn can lead to ChapterE
 
-    * **chapter_tree** : tree_root_node
+    Args:
+    1. **chapter_graph** : a networkx Graph object representing the chapters, and the paths between them
+    2. **title** : a string representing the title of the Story
     """
-    def __init__(self, chapter_tree, title):
+    def __init__(self, chapter_graph, title):
         super(Story, self).__init__()
-        self.chapter_tree = chapter_tree
+        self.chapter_graph = chapter_graph
         self.title = title
-
-# === get_current_choices ===
-
-    def get_current_choices(self, curr_chapter_path):
-        """
-        Get the current options that are available for the player to
-        choose from.
-
-        * ** chapter_path** : [active_node_name]
-        """
-
-        # WIll contain an array of all possible chapters that the player
-        # can access from their current point in the tale.
-        choices = []
-
-        # Resolver is an [anytree](https://anytree.readthedocs.io/) class which is used for search.
-        # Passing it 'name' is the way we tell it which attribute
-        # to search on. I imagine that we could pass it 'chapter' too
-        r = Resolver('name')
-
-        # Next we get the current node, ie, the chapter that the player
-        # is currently at.
-        # TODO: What if a node is missing?
-        curr_chapter = r.get(self.chapter_tree, curr_chapter_path) 
-
-        # Now that we know where they ended up, we can get the next possible
-        # steps by checking for their children (ie one level down the tree)
-        children = curr_chapter.children
-
-        for chapter_node in children:
-            choices.append(chapter_node) # Add each choice to the choices list
-        
-        print(choices)
-        return choices
-        
-
-
-# === walk_chapter_tree ===
-
-    def walk_chapter_tree(self, curr_chapter_path):
-        """
-        Walk through the character tree and return the current tale.
-        The path takes the form of the name of the active node in the tree,
-        ie, where the player has reached in the tale.
-        
-        * **curr_chapter_path** : [active_node_name]
-        """
-        # The tale embodies the entierity of the story (at this point in time)
-        # It'll be returned as an array of Chapters (in the right order)
-        tale = []
-
-        # Initializing an [anytree](https://anytree.readthedocs.io/) Resolver for search
-        r = Resolver('name')
-
-        # Next we get the current node, ie, the chapter that the player
-        # is currently at.
-        curr_chapter = r.get(self.chapter_tree, curr_chapter_path) 
-
-        # Now that we know where they ended up in the story, we can get
-        # their history by backtracking through the tree.
-        ancestors = curr_chapter.ancestors
-
-        for chapter_node in ancestors:            
-            tale.append(chapter_node) # Add each tale to the tale list
-        
-        # Importantly, the list of a node's _ancestors_ don't include 
-        # the node itself, therefore, for the complete tale, we need to 
-        # add the current chapter
-        tale.append(curr_chapter)
-
-        return tale
-
     
+    def generate_all_chapters(self, player):
+        """
+        Given a Character representing the player, return an array
+        of every Chapter in the story with zir information spliced in. 
+        [It's mostly meant for debugging]
+        """
+        
+        """
+        We're going to use python's excellent List Comprehension here.
+        For all of the nodes in the chapter_graph, grab the **second** element
+        in the Node's tuple. ie (ID, DATA)[1]
+        Then we do DATA['chapter'] to get the Chapter object itself, and finally,
+        Character.generate(player) to create the chapter text with the player's info
+        spliced in.
+        """
+        generated_chapters = [n[1]['chapter'].generate(player) 
+                                for n in self.chapter_graph.nodes(data=True)]
+        
+        return generated_chapters
+        
+        
+            
 
 
 # == Create Demo Story ==
@@ -198,39 +150,32 @@ def create_demo_story():
 
     Return: String of text representing the generated story
     """
-    
-    main_character = ADA
 
     specific_stories = dbService.db.child("stories").order_by_child("title").equal_to("Great Expectations").get().val()
+    all_chapters = dbService.db.child("chapters").get().val()
     # print(next(iter(specific_stories)))
     # print(specific_stories.popitem()[1])
     all_stories = dbService.get_all_documents('stories')
-    print('All Stories:')
-    print(all_stories)
+    print('All Chapters:')
+    print(all_chapters)
 
     
     # We're just creating a set of sample text here, but we'll read from a db later
     chapter1 = Chapter("@N drew @zir sword and declared war.")
     chapter2 = Chapter("@Ze was afraid that @ze would never get to be @zirself in the current political climate.")
     chapter3 = Chapter("@Ze spent years of @zir life fighting tirelessly for equal rights and respect. ")
-    chapter4 = Chapter("@Ze reconsidered and decided that @ze should just be lit instead")
-
-    # Now we create a tree with chapter1 as the root
-    # This is where the strucure of the story, and the 
-    # branching is defined. 
-    # TODO automate the generation of the tree given some datastructure
-    root = Node('0', chapter = chapter1)
-    s0 = Node('1', chapter= chapter2, parent=root)
-    s1a = Node('2', chapter = chapter3, parent=s0)
-    s1b = Node('3', chapter =chapter4, parent=s0)
-
-    # Initialize a Story object with the root node
-    # representing the chapter_tree
-    story = Story(root, 'Dragon Slayer')
-    adas_story = story.walk_chapter_tree('1/3')
-    adas_choices = story.get_current_choices('1')
+    chapter4 = Chapter("@Ze reconsidered and decided that @ze should just be lit with a Dragon instead.")
     
-    full_story_text = [node.chapter.generate(main_character) for node in adas_story]
+    raw_chapters = [chapter1, chapter2, chapter3, chapter4]
+    indexed_chapters = utils.add_index_to_array(raw_chapters, 'chapter')
+    sample_edges = [(1, 2), (2, 3), (2, 4)]
 
-    return "<br>".join(full_story_text)
+    story_graph = nx.Graph()
+    story_graph.add_nodes_from(indexed_chapters)
+    story_graph.add_edges_from(sample_edges)    
 
+
+    dragon_slayer = Story(story_graph, 'Dragon Slayer')
+    dragon_chapters = dragon_slayer.generate_all_chapters(ADA)
+
+    return "<br>".join(dragon_chapters)
