@@ -8,7 +8,7 @@ are spliced into the story.
 import api.db as dbService
 import api.utils as utils
 # I'm just going use the [networkx](networkx.github.io) library to represent
-# the graph strucure of the game.
+# the graph structure of the game.
 import networkx as nx
 
 # == Character ==
@@ -134,11 +134,43 @@ class Story(object):
         """
         generated_chapters = [n[1]['chapter'].generate(player) 
                                 for n in self.chapter_graph.nodes(data=True)]
+
+        print(generated_chapters)
         
         return generated_chapters
-        
-        
-            
+
+
+
+# == Story Queeries ==
+
+# === get_story_chapters ===
+def get_story_chapters(story_id):
+    """
+    Given a story id in the form of a string (eg. 'H8wkMown193'),
+    go find that story in the database, and then return its list of chapters
+
+    Args: <br>
+    1. **story_id** : A string representing the story id to be queeried
+
+    Return: [(KeyA, {'chapter' : ChapterA}), (KeyB, {'chapter': ChapterB}) ...]
+    """
+
+    # Here we queery the database using the dbService from db.py
+    # We drill down from <br> **Stories --> Our Specific Story --> It's chapters** <br>
+    # Then we return an iterable list of chapters by using _.each()_
+    db_chapters = dbService.db.child("stories").child(story_id).child("chapters").get().each()
+
+    # db_chapters now = **[PyreObject, PyreObject, ...]**, <br>
+    # but networkx needs the form: **[(KEY, DATA), (KEY, DATA), ...]**. <br>
+    # Where the KEY is the Chapter's unique ID from firebase, and the DATA, 
+    # is a dict with a Chapter object, ie <br>
+    # **{'chapter', Chapter('@Zir adventures in wonderland)}** <br>
+    # so we use Python's excellent List Comprehension to do it.
+    formatted_chapters = [ (c.key(), {'chapter' :Chapter(c.val()['raw'])})
+                        for c in db_chapters ]
+    
+    # TODO At this point we should handle the case where the db returns None because no story/story-chapters exist
+    return formatted_chapters
 
 
 # == Create Demo Story ==
@@ -146,34 +178,23 @@ class Story(object):
 def create_demo_story():
     """
     We use default arguments to generate a story for 
-    testing. 
+    testing. 'chapter
 
     Return: String of text representing the generated story
     """
 
     specific_stories = dbService.db.child("stories").order_by_child("title").equal_to("Great Expectations").get().val()
-    all_chapters = dbService.db.child("chapters").get().val()
+    
     # print(next(iter(specific_stories)))
     # print(specific_stories.popitem()[1])
     all_stories = dbService.get_all_documents('stories')
-    print('All Chapters:')
-    print(all_chapters)
-
+    # sample_edges = [(1, 2)]
+    sample_chapters = get_story_chapters("hp101") # [(1,ChapterA), (2,ChapterB)]
     
-    # We're just creating a set of sample text here, but we'll read from a db later
-    chapter1 = Chapter("@N drew @zir sword and declared war.")
-    chapter2 = Chapter("@Ze was afraid that @ze would never get to be @zirself in the current political climate.")
-    chapter3 = Chapter("@Ze spent years of @zir life fighting tirelessly for equal rights and respect. ")
-    chapter4 = Chapter("@Ze reconsidered and decided that @ze should just be lit with a Dragon instead.")
-    
-    raw_chapters = [chapter1, chapter2, chapter3, chapter4]
-    indexed_chapters = utils.add_index_to_array(raw_chapters, 'chapter')
-    sample_edges = [(1, 2), (2, 3), (2, 4)]
-
     story_graph = nx.Graph()
-    story_graph.add_nodes_from(indexed_chapters)
-    story_graph.add_edges_from(sample_edges)    
-
+    story_graph.add_nodes_from(sample_chapters)
+    # TODO: db query for sample edges
+    # story_graph.add_edges_from(sample_edges)    
 
     dragon_slayer = Story(story_graph, 'Dragon Slayer')
     dragon_chapters = dragon_slayer.generate_all_chapters(ADA)

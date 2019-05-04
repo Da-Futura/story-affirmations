@@ -44,7 +44,7 @@ are spliced into the story. </p>
         <a class='octothorpe' href='#section-2'>#</a>
       </div>
       <p>I&rsquo;m just going use the <a href="networkx.github.io">networkx</a> library to represent
-the graph strucure of the game.</p>
+the graph structure of the game.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span></pre></div>
@@ -271,8 +271,8 @@ D &ndash;&gt; E</p>
         <a class='octothorpe' href='#section-15'>#</a>
       </div>
       <p>Given a Character representing the player, return an array
-of every Chapter in the story with zir information spliced in. </p>
-<p>It&rsquo;s mostly for debugging.</p>
+of every Chapter in the story with zir information spliced in. 
+[It&rsquo;s mostly meant for debugging]</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">generate_all_chapters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span></pre></div>
@@ -284,14 +284,15 @@ of every Chapter in the story with zir information spliced in. </p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-16'>#</a>
       </div>
-      
+      <p>We&rsquo;re going to use python&rsquo;s excellent List Comprehension here.
+For all of the nodes in the chapter_graph, grab the <strong>second</strong> element
+in the Node&rsquo;s tuple. ie (ID, DATA)[1]
+Then we do DATA[&lsquo;chapter&rsquo;] to get the Chapter object itself, and finally,
+Character.generate(player) to create the chapter text with the player&rsquo;s info
+spliced in.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        
-        <span class="n">generated_chapters</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;chapter&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">player</span><span class="p">)</span> 
-                                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chapter_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">True</span><span class="p">)]</span>
-        
-        <span class="k">return</span> <span class="n">generated_chapters</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -300,10 +301,15 @@ of every Chapter in the story with zir information spliced in. </p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-17'>#</a>
       </div>
-      <h2><span id="create-demo-story" href="create-demo-story"> Create Demo Story </span></h2>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre>        <span class="n">generated_chapters</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;chapter&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">player</span><span class="p">)</span> 
+                                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chapter_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">True</span><span class="p">)]</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="n">generated_chapters</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">generated_chapters</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -312,12 +318,10 @@ of every Chapter in the story with zir information spliced in. </p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-18'>#</a>
       </div>
-      <p>We use default arguments to generate a story for 
-testing. </p>
-<p>Return: String of text representing the generated story</p>
+      <h2><span id="story-queeries" href="story-queeries"> Story Queeries </span></h2>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_demo_story</span><span class="p">():</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -326,11 +330,10 @@ testing. </p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-19'>#</a>
       </div>
-      
+      <h3><span id="get_story_chapters" href="get_story_chapters"> get_story_chapters </span></h3>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">specific_stories</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="s2">&quot;stories&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by_child</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">equal_to</span><span class="p">(</span><span class="s2">&quot;Great Expectations&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">val</span><span class="p">()</span>
-    <span class="n">all_chapters</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="s2">&quot;chapters&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">val</span><span class="p">()</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_story_chapters</span><span class="p">(</span><span class="n">story_id</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -339,13 +342,14 @@ testing. </p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-20'>#</a>
       </div>
-      <p>print(next(iter(specific_stories)))
-print(specific_stories.popitem()[1])</p>
+      <p>Given a story id in the form of a string (eg. &lsquo;H8wkMown193&rsquo;),
+go find that story in the database, and then return its list of chapters</p>
+<p>Args: <br>
+1. <strong>story_id</strong> : A string representing the story id to be queeried</p>
+<p>Return: [(KeyA, {&lsquo;chapter&rsquo; : ChapterA}), (KeyB, {&lsquo;chapter&rsquo;: ChapterB}) &hellip;]</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">all_stories</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">get_all_documents</span><span class="p">(</span><span class="s1">&#39;stories&#39;</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;All Chapters:&#39;</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">all_chapters</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -354,24 +358,121 @@ print(specific_stories.popitem()[1])</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-21'>#</a>
       </div>
-      <p>We&rsquo;re just creating a set of sample text here, but we&rsquo;ll read from a db later</p>
+      <p>Here we queery the database using the dbService from db.py
+We drill down from <br> <strong>Stories &ndash;&gt; Our Specific Story &ndash;&gt; It&rsquo;s chapters</strong> <br>
+Then we return an iterable list of chapters by using <em>.each()</em></p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">chapter1</span> <span class="o">=</span> <span class="n">Chapter</span><span class="p">(</span><span class="s2">&quot;@N drew @zir sword and declared war.&quot;</span><span class="p">)</span>
-    <span class="n">chapter2</span> <span class="o">=</span> <span class="n">Chapter</span><span class="p">(</span><span class="s2">&quot;@Ze was afraid that @ze would never get to be @zirself in the current political climate.&quot;</span><span class="p">)</span>
-    <span class="n">chapter3</span> <span class="o">=</span> <span class="n">Chapter</span><span class="p">(</span><span class="s2">&quot;@Ze spent years of @zir life fighting tirelessly for equal rights and respect. &quot;</span><span class="p">)</span>
-    <span class="n">chapter4</span> <span class="o">=</span> <span class="n">Chapter</span><span class="p">(</span><span class="s2">&quot;@Ze reconsidered and decided that @ze should just be lit with a Dragon instead.&quot;</span><span class="p">)</span>
+      <div class="highlight"><pre>    <span class="n">db_chapters</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="s2">&quot;stories&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="n">story_id</span><span class="p">)</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="s2">&quot;chapters&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">each</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>db_chapters now = <strong>[PyreObject, PyreObject, &hellip;]</strong>, <br>
+but networkx needs the form: <strong>[(KEY, DATA), (KEY, DATA), &hellip;]</strong>. <br>
+Where the KEY is the Chapter&rsquo;s unique ID from firebase, and the DATA, 
+is a dict with a Chapter object, ie <br>
+<strong>{&lsquo;chapter&rsquo;, Chapter(&lsquo;@Zir adventures in wonderland)}</strong> <br>
+so we use Python&rsquo;s excellent List Comprehension to do it.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">formatted_chapters</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">key</span><span class="p">(),</span> <span class="p">{</span><span class="s1">&#39;chapter&#39;</span> <span class="p">:</span><span class="n">Chapter</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">val</span><span class="p">()[</span><span class="s1">&#39;raw&#39;</span><span class="p">])})</span>
+                        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">db_chapters</span> <span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <p>TODO At this point we should handle the case where the db returns None because no story/story-chapters exist</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">formatted_chapters</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <h2><span id="create-demo-story" href="create-demo-story"> Create Demo Story </span></h2>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      <p>We use default arguments to generate a story for 
+testing. &lsquo;chapter</p>
+<p>Return: String of text representing the generated story</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_demo_story</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">specific_stories</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="s2">&quot;stories&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by_child</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">equal_to</span><span class="p">(</span><span class="s2">&quot;Great Expectations&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">val</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      <p>print(next(iter(specific_stories)))
+print(specific_stories.popitem()[1])</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">all_stories</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">get_all_documents</span><span class="p">(</span><span class="s1">&#39;stories&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      <p>sample_edges = [(1, 2)]</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">sample_chapters</span> <span class="o">=</span> <span class="n">get_story_chapters</span><span class="p">(</span><span class="s2">&quot;hp101&quot;</span><span class="p">)</span> <span class="c1"># [(1,ChapterA), (2,ChapterB)]</span>
     
-    <span class="n">raw_chapters</span> <span class="o">=</span> <span class="p">[</span><span class="n">chapter1</span><span class="p">,</span> <span class="n">chapter2</span><span class="p">,</span> <span class="n">chapter3</span><span class="p">,</span> <span class="n">chapter4</span><span class="p">]</span>
-    <span class="n">indexed_chapters</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">add_index_to_array</span><span class="p">(</span><span class="n">raw_chapters</span><span class="p">,</span> <span class="s1">&#39;chapter&#39;</span><span class="p">)</span>
-    <span class="n">sample_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
-
     <span class="n">story_graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
-    <span class="n">story_graph</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">indexed_chapters</span><span class="p">)</span>
-    <span class="n">story_graph</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">sample_edges</span><span class="p">)</span>    
-
-
-    <span class="n">dragon_slayer</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="n">story_graph</span><span class="p">,</span> <span class="s1">&#39;Dragon Slayer&#39;</span><span class="p">)</span>
+    <span class="n">story_graph</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">sample_chapters</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      <p>TODO: db query for sample edges
+story_graph.add_edges_from(sample_edges)    </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">dragon_slayer</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="n">story_graph</span><span class="p">,</span> <span class="s1">&#39;Dragon Slayer&#39;</span><span class="p">)</span>
     <span class="n">dragon_chapters</span> <span class="o">=</span> <span class="n">dragon_slayer</span><span class="o">.</span><span class="n">generate_all_chapters</span><span class="p">(</span><span class="n">ADA</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="s2">&quot;&lt;br&gt;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dragon_chapters</span><span class="p">)</span>
