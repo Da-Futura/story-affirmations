@@ -127,9 +127,9 @@ class Story(object):
         """
         We're going to use python's excellent List Comprehension here.
         For all of the nodes in the chapter_graph, grab the **second** element
-        in the Node's tuple. ie (ID, DATA)[1]
-        Then we do DATA['chapter'] to get the Chapter object itself, and finally,
-        Character.generate(player) to create the chapter text with the player's info
+        in the Node's tuple. ie `(ID, DATA)[1]` <br>
+        Then we do `DATA['chapter']` to get the Chapter object itself, <br> and finally,
+        `Character.generate(player)` to create the chapter text with the player's info
         spliced in.
         """
         generated_chapters = [n[1]['chapter'].generate(player) 
@@ -148,6 +148,7 @@ def get_story_chapters(story_id):
     """
     Given a story id in the form of a string (eg. 'H8wkMown193'),
     go find that story in the database, and then return its list of chapters
+    in a form that can be read by networkx
 
     Args: <br>
     1. **story_id** : A string representing the story id to be queeried
@@ -172,6 +173,33 @@ def get_story_chapters(story_id):
     # TODO At this point we should handle the case where the db returns None because no story/story-chapters exist
     return formatted_chapters
 
+# === get_story_edges ===
+
+def get_story_edges(story_id):
+    """
+    Given a story id in the form of a string (eg. 'H8wkMown193'),
+    go find that story in the database, and then return its list of edges
+    in a form that can be read by networkx.
+
+    Args: <br>
+    1. **story_id** : A string representing the story id to be queeried
+
+    Return: [(StartNodeA, EndNodeA), (StartNodeB, EndNodeB) ...]
+    """
+
+    # Using the same logic as **get_story_chapters**, instantiate **db_edges** as
+    # an iterable containing the edges associated with the story given
+    db_edges = dbService.db.child('stories').child(story_id).child("edges").get().each()
+
+    # Then we take that iterable, and use it in a List Comprehension
+    # where we generate a list in the <br>
+    # `(START_NODE, END_NODE, DATA)` form required. <br>
+    # Note that we're storing the edge's database key in the DATA dict.
+    # This will probably be handy for edge manipulation later because we can then edit/remove edges directly.
+    formatted_edges = [(e.val()['start_node'], e.val()['end_node'], {'choice_text': e.val()['choice_text'], 'key': e.key()})
+                        for e in db_edges]
+    
+    return formatted_edges
 
 # == Create Demo Story ==
 
@@ -188,13 +216,16 @@ def create_demo_story():
     # print(next(iter(specific_stories)))
     # print(specific_stories.popitem()[1])
     all_stories = dbService.get_all_documents('stories')
-    # sample_edges = [(1, 2)]
+    sample_edges = get_story_edges("hp101")
     sample_chapters = get_story_chapters("hp101") # [(1,ChapterA), (2,ChapterB)]
     
     story_graph = nx.Graph()
     story_graph.add_nodes_from(sample_chapters)
     # TODO: db query for sample edges
-    # story_graph.add_edges_from(sample_edges)    
+    story_graph.add_edges_from(sample_edges)
+
+    print(story_graph.edges.data())
+    print(story_graph.nodes)
 
     dragon_slayer = Story(story_graph, 'Dragon Slayer')
     dragon_chapters = dragon_slayer.generate_all_chapters(ADA)

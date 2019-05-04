@@ -286,9 +286,9 @@ of every Chapter in the story with zir information spliced in.
       </div>
       <p>We&rsquo;re going to use python&rsquo;s excellent List Comprehension here.
 For all of the nodes in the chapter_graph, grab the <strong>second</strong> element
-in the Node&rsquo;s tuple. ie (ID, DATA)[1]
-Then we do DATA[&lsquo;chapter&rsquo;] to get the Chapter object itself, and finally,
-Character.generate(player) to create the chapter text with the player&rsquo;s info
+in the Node&rsquo;s tuple. ie <code>(ID, DATA)[1]</code> <br>
+Then we do <code>DATA['chapter']</code> to get the Chapter object itself, <br> and finally,
+<code>Character.generate(player)</code> to create the chapter text with the player&rsquo;s info
 spliced in.</p>
     </div>
     <div class='code'>
@@ -343,7 +343,8 @@ spliced in.</p>
         <a class='octothorpe' href='#section-20'>#</a>
       </div>
       <p>Given a story id in the form of a string (eg. &lsquo;H8wkMown193&rsquo;),
-go find that story in the database, and then return its list of chapters</p>
+go find that story in the database, and then return its list of chapters
+in a form that can be read by networkx</p>
 <p>Args: <br>
 1. <strong>story_id</strong> : A string representing the story id to be queeried</p>
 <p>Return: [(KeyA, {&lsquo;chapter&rsquo; : ChapterA}), (KeyB, {&lsquo;chapter&rsquo;: ChapterB}) &hellip;]</p>
@@ -402,7 +403,7 @@ so we use Python&rsquo;s excellent List Comprehension to do it.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-24'>#</a>
       </div>
-      <h2><span id="create-demo-story" href="create-demo-story"> Create Demo Story </span></h2>
+      <h3><span id="get_story_edges" href="get_story_edges"> get_story_edges </span></h3>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -414,12 +415,15 @@ so we use Python&rsquo;s excellent List Comprehension to do it.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-25'>#</a>
       </div>
-      <p>We use default arguments to generate a story for 
-testing. &lsquo;chapter</p>
-<p>Return: String of text representing the generated story</p>
+      <p>Given a story id in the form of a string (eg. &lsquo;H8wkMown193&rsquo;),
+go find that story in the database, and then return its list of edges
+in a form that can be read by networkx.</p>
+<p>Args: <br>
+1. <strong>story_id</strong> : A string representing the story id to be queeried</p>
+<p>Return: [(StartNodeA, EndNodeA), (StartNodeB, EndNodeB) &hellip;]</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_demo_story</span><span class="p">():</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_story_edges</span><span class="p">(</span><span class="n">story_id</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -431,7 +435,7 @@ testing. &lsquo;chapter</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">specific_stories</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="s2">&quot;stories&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by_child</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">equal_to</span><span class="p">(</span><span class="s2">&quot;Great Expectations&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">val</span><span class="p">()</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -440,11 +444,11 @@ testing. &lsquo;chapter</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-27'>#</a>
       </div>
-      <p>print(next(iter(specific_stories)))
-print(specific_stories.popitem()[1])</p>
+      <p>Using the same logic as <strong>get_story_chapters</strong>, instantiate <strong>db_edges</strong> as
+an iterable containing the edges associated with the story given</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">all_stories</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">get_all_documents</span><span class="p">(</span><span class="s1">&#39;stories&#39;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">db_edges</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="s1">&#39;stories&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="n">story_id</span><span class="p">)</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="s2">&quot;edges&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">each</span><span class="p">()</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -453,13 +457,17 @@ print(specific_stories.popitem()[1])</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-28'>#</a>
       </div>
-      <p>sample_edges = [(1, 2)]</p>
+      <p>Then we take that iterable, and use it in a List Comprehension
+where we generate a list in the <br>
+<code>(START_NODE, END_NODE, DATA)</code> form required. <br>
+Note that we&rsquo;re storing the edge&rsquo;s database key in the DATA dict.
+This will probably be handy for edge manipulation later because we can then edit/remove edges directly.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">sample_chapters</span> <span class="o">=</span> <span class="n">get_story_chapters</span><span class="p">(</span><span class="s2">&quot;hp101&quot;</span><span class="p">)</span> <span class="c1"># [(1,ChapterA), (2,ChapterB)]</span>
+      <div class="highlight"><pre>    <span class="n">formatted_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">e</span><span class="o">.</span><span class="n">val</span><span class="p">()[</span><span class="s1">&#39;start_node&#39;</span><span class="p">],</span> <span class="n">e</span><span class="o">.</span><span class="n">val</span><span class="p">()[</span><span class="s1">&#39;end_node&#39;</span><span class="p">],</span> <span class="p">{</span><span class="s1">&#39;choice_text&#39;</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">val</span><span class="p">()[</span><span class="s1">&#39;choice_text&#39;</span><span class="p">],</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">key</span><span class="p">()})</span>
+                        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">db_edges</span><span class="p">]</span>
     
-    <span class="n">story_graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
-    <span class="n">story_graph</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">sample_chapters</span><span class="p">)</span></pre></div>
+    <span class="k">return</span> <span class="n">formatted_edges</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -468,11 +476,71 @@ print(specific_stories.popitem()[1])</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-29'>#</a>
       </div>
-      <p>TODO: db query for sample edges
-story_graph.add_edges_from(sample_edges)    </p>
+      <h2><span id="create-demo-story" href="create-demo-story"> Create Demo Story </span></h2>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">dragon_slayer</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="n">story_graph</span><span class="p">,</span> <span class="s1">&#39;Dragon Slayer&#39;</span><span class="p">)</span>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-30'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      <p>We use default arguments to generate a story for 
+testing. &lsquo;chapter</p>
+<p>Return: String of text representing the generated story</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_demo_story</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-31'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-31'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">specific_stories</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="s2">&quot;stories&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by_child</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">equal_to</span><span class="p">(</span><span class="s2">&quot;Great Expectations&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">val</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-32'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-32'>#</a>
+      </div>
+      <p>print(next(iter(specific_stories)))
+print(specific_stories.popitem()[1])</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">all_stories</span> <span class="o">=</span> <span class="n">dbService</span><span class="o">.</span><span class="n">get_all_documents</span><span class="p">(</span><span class="s1">&#39;stories&#39;</span><span class="p">)</span>
+    <span class="n">sample_edges</span> <span class="o">=</span> <span class="n">get_story_edges</span><span class="p">(</span><span class="s2">&quot;hp101&quot;</span><span class="p">)</span>
+    <span class="n">sample_chapters</span> <span class="o">=</span> <span class="n">get_story_chapters</span><span class="p">(</span><span class="s2">&quot;hp101&quot;</span><span class="p">)</span> <span class="c1"># [(1,ChapterA), (2,ChapterB)]</span>
+    
+    <span class="n">story_graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+    <span class="n">story_graph</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">sample_chapters</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-33'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-33'>#</a>
+      </div>
+      <p>TODO: db query for sample edges</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">story_graph</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">sample_edges</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="n">story_graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">data</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">story_graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+
+    <span class="n">dragon_slayer</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="n">story_graph</span><span class="p">,</span> <span class="s1">&#39;Dragon Slayer&#39;</span><span class="p">)</span>
     <span class="n">dragon_chapters</span> <span class="o">=</span> <span class="n">dragon_slayer</span><span class="o">.</span><span class="n">generate_all_chapters</span><span class="p">(</span><span class="n">ADA</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="s2">&quot;&lt;br&gt;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dragon_chapters</span><span class="p">)</span>
