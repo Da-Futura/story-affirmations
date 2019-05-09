@@ -1,0 +1,3 @@
+- The focus is an exploration of identity and how different identities manifest themselves in everyday situation
+- We create a colloborative storywriting environment in which diverse voices can co-create story branches
+- Colours as a way to distinguish characters in the editor in order to keep pronouns/identities straight

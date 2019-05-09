@@ -377,7 +377,7 @@ Then we return an iterable list of chapters by using <em>.each()</em></p>
 but networkx needs the form: <strong>[(KEY, DATA), (KEY, DATA), &hellip;]</strong>. <br>
 Where the KEY is the Chapter&rsquo;s unique ID from firebase, and the DATA, 
 is a dict with a Chapter object, ie <br>
-<strong>{&lsquo;chapter&rsquo;, Chapter(&lsquo;@Zir adventures in wonderland)}</strong> <br>
+<strong>{&lsquo;chapter&rsquo;: Chapter(&lsquo;@Zir adventures in wonderland)}</strong> <br>
 so we use Python&rsquo;s excellent List Comprehension to do it.</p>
     </div>
     <div class='code'>
@@ -420,7 +420,7 @@ go find that story in the database, and then return its list of edges
 in a form that can be read by networkx.</p>
 <p>Args: <br>
 1. <strong>story_id</strong> : A string representing the story id to be queeried</p>
-<p>Return: [(StartNodeA, EndNodeA), (StartNodeB, EndNodeB) &hellip;]</p>
+<p>Return: [(StartNodeA, EndNodeA, DATA), &hellip;]</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_story_edges</span><span class="p">(</span><span class="n">story_id</span><span class="p">):</span></pre></div>

@@ -165,7 +165,7 @@ def get_story_chapters(story_id):
     # but networkx needs the form: **[(KEY, DATA), (KEY, DATA), ...]**. <br>
     # Where the KEY is the Chapter's unique ID from firebase, and the DATA, 
     # is a dict with a Chapter object, ie <br>
-    # **{'chapter', Chapter('@Zir adventures in wonderland)}** <br>
+    # **{'chapter': Chapter('@Zir adventures in wonderland)}** <br>
     # so we use Python's excellent List Comprehension to do it.
     formatted_chapters = [ (c.key(), {'chapter' :Chapter(c.val()['raw'])})
                         for c in db_chapters ]
@@ -184,7 +184,7 @@ def get_story_edges(story_id):
     Args: <br>
     1. **story_id** : A string representing the story id to be queeried
 
-    Return: [(StartNodeA, EndNodeA), (StartNodeB, EndNodeB) ...]
+    Return: [(StartNodeA, EndNodeA, DATA), ...]
     """
 
     # Using the same logic as **get_story_chapters**, instantiate **db_edges** as
