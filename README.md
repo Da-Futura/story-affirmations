@@ -1,16 +1,8 @@
 # Story Affirmations
-Sometimes you need a little reminder that, "You're that bitch." 
-Given your name and pronouns, this project will give you a whole
-assortment of dramatic paragraphs with *you* as the protagonist.
+The beginning of an attempt to model a Choose Your Own Adventure Game
 
-eg. If you're Maria, and you use she/her pronouns, we might take the classic
-excerpt from Harry Potter and the Half Blood Prince where Harry and Ginny 
-first kiss, and generate the passage: 
-
-> 'We won! Four hundred and fifty to a hundred and forty! We won!' _Maria_ looked around; there was Ginny running towards _her_; she had a hard, blazing look in her face as she threw her arms around _her_.
-
-Honestly, I thought that this was just gonna be a find/replace when I started, but now I'm really falling down a rabbit hole here. 
-Pronouns are complicated, and parsing seems fun. 
+## Semi-Literate docs
+https://da-futura.github.io/story-affirmations/story_generator.html
 
 ## Setup
 After cloning the repo, run the bootstrap script to install basic python and
